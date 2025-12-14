@@ -14,18 +14,28 @@
       // Generate a random number bewteen 1 and 100
       const randomNumber = Math.floor(Math.random() * 100) + 1;
       // Create a new element to display the random number
-      const numberElement = document.createElement("h1");
-      numberElement.innerHTML = `Generated Number: ${randomNumber}`;
-      const resultElement = document.createElement("h2");
-      if (randomNumber % 2 == 0) {
-        resultElement.innerHTML = "The number is even";
-      } else {
-        resultElement.innerHTML = "The number is odd";
-      }
+      const numberElement = React.createElement(
+        "h1",
+        null,
+        `Generated Number: ${randomNumber}`
+      );
+
+      const resultElement = React.createElement(
+        "h2",
+        { style: { color: "blue" } },
+        randomNumber % 2 == 0 ? "The number is even" : "The number is odd"
+      );
+
       // Get the root element and append the generated elements
-      const root = document.getElementById("root");
-      root.appendChild(numberElement);
-      root.appendChild(resultElement);
+      // const root = ReactDOM.createRoot(document.body);
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      //   root.render([numberElement, resultElement]);
+      root.render(
+        React.createElement("div", { id: "childDiv" }, [
+          numberElement,
+          resultElement,
+        ])
+      );
     </script>
   </body>
 </html>
