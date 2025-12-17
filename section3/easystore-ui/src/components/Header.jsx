@@ -1,7 +1,7 @@
 import { faShoppingBasket, faTags } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Header = () => {
+export default function Header() {
   return (
     <header className="header">
       <div className="container">
@@ -41,6 +41,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+}
 
-export default Header;
+// export default Header;
