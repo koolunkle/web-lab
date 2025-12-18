@@ -1,3 +1,3 @@
-export default function PageTitle() {
-  return <div>PageTitle</div>;
+export default function PageTitle({ title }) {
+  return <h1 className="page-title">{title}</h1>;
 }
