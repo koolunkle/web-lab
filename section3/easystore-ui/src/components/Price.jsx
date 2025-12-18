@@ -1,4 +1,3 @@
-
 export default function Price({ currency, price }) {
   return (
     <>

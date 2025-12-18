@@ -9,10 +9,10 @@ export default function ProductCard({ product }) {
           alt={product.name}
           className="product-card-image"
         />
-        <div className="product-card-details">
-          <h2 className="product-card-title">{product.name}</h2>
-          <p className="product-card-description">{product.description}</p>
-        </div>
+      </div>
+      <div className="product-card-details">
+        <h2 className="product-card-title">{product.name}</h2>
+        <p className="product-card-description">{product.description}</p>
         <div className="product-card-footer">
           <div className="product-card-price">
             <Price currency="$" price={product.price} />
