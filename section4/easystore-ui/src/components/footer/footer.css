@@ -23,6 +23,20 @@
   animation: pulse 1.5s infinite;
 }
 
+.my-heading {
+  text-align: center;
+}
+
+.primary-color {
+  color: #5b21b6;
+}
+
+.secondary-color {
+  color: #dc2626;
+  margin: 0 0.25rem;
+  animation: pulse 1.5s infinite;
+}
+
 @keyframes pulse {
   0%,
   100% {
