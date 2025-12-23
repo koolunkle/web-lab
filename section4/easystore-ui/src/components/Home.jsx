@@ -1,5 +1,6 @@
 import { useState } from "react";
 import products from "../data/products";
+import EazyButton from "./EazyButton";
 import PageHeading from "./PageHeading";
 import ProductListings from "./ProductListings";
 
@@ -20,6 +21,7 @@ export default function Home() {
       >
         Demo of Global CSS Scope from Home
       </h1>
+      <EazyButton>Home</EazyButton>
       {/* <h1 style={h1Styling}>Demo of Global CSS Scope from Home</h1> */}
       {/* <h1 className="my-heading">Demo of Global CSS Scope from Home</h1> */}
       <div className="home-container">
