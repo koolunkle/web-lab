@@ -2,7 +2,6 @@ import { useState } from "react";
 import products from "../data/products";
 import PageHeading from "./PageHeading";
 import ProductListings from "./ProductListings";
-import "./footer/footer.css";
 
 export default function Home() {
   const [isActive] = useState(() => Math.random() > 0.5);
