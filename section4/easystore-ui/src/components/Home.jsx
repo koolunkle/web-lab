@@ -1,4 +1,6 @@
 import { useState } from "react";
+import breakImage from "../assets/stickers/break.png";
+import developerImage from "../assets/stickers/developer.png";
 import products from "../data/products";
 import BootstrapButton from "./BootstrapButton";
 import PageHeading from "./PageHeading";
@@ -61,6 +63,39 @@ export default function Home() {
               aria-label="Close"
             ></button>
           </div>
+        </div>
+        <div className="container d-flex justify-content-center align-items-center gap-4">
+          <div className="card" style={{ width: "18rem" }}>
+            <img src={developerImage} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title">Card title</h5>
+              <p className="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <a href="#" className="btn btn-primary">
+                Go somewhere
+              </a>
+            </div>
+          </div>
+          <div className="card" style={{ width: "18rem" }}>
+            <img src={breakImage} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title">Card title</h5>
+              <p className="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <a href="#" className="btn btn-primary">
+                Go somewhere
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="row justify-content-center text-center mt-3 gap-3">
+          <div className="col-3 border p-3 bg-warning">Column 1</div>
+          <div className="col-3 border p-3 bg-success text-white">Column 2</div>
+          <div className="col-3 border p-3 bg-danger text-white">Column 3</div>
         </div>
         <PageHeading title="Explore Eazy Stickers!">
           Add a touch of creativity to your space wih our wide range of fun and
