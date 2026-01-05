@@ -3,7 +3,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      {/* <h1 class="text-3xl font-bold underline">Hello world!</h1>
+      <h1 class="text-3xl font-bold underline">Hello world!</h1>
       <p className="text-lg underline font-bold mt-4 text-blue-600">
         Tailwind makes styling easy!
       </p>
@@ -73,8 +73,8 @@ function App() {
         <button className="px-6 py-2 m-4 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-300">
           Read More
         </button>
-      </div> */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
         <div className="bg-blue-300 p-4">1</div>
         <div className="bg-blue-300 p-4">2</div>
         <div className="bg-blue-300 p-4">3</div>
@@ -86,6 +86,9 @@ function App() {
       <p className="text-red-600 sm:text-blue-600 md:text-emerald-600 lg:text-yellow-500 xl:text-purple-600">
         Resize the screen to see changes!
       </p>
+      <div className="bg-[#ff5733] h-[165px] w-[300px] border-green-600 p-4 rounded-lg m-4 flex items-center justify-center">
+        Custom Width, Height and Color
+      </div>
     </>
   );
 }
