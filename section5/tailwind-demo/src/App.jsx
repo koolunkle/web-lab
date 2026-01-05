@@ -59,6 +59,21 @@ function App() {
           </tr>
         </tbody>
       </table>
+      <button className="px-6 py-2 m-4 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+        Click me
+      </button>
+      <button className="px-6 py-2 m-4 bg-red-500 text-white rounded-lg hover:bg-red-700 transition duration-500 ease-in-out transform hover:scale-110">
+        Hover me
+      </button>
+      <div className="max-w-sm rounded-lg shadow-lg bg-indigo-100 p-6">
+        <h2 className="text-2xl font-bold mb-4">Tailwind Card</h2>
+        <p className="text-gray-700">
+          This is a simple card built with Tailwind CSS
+        </p>
+        <button className="px-6 py-2 m-4 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+          Read More
+        </button>
+      </div>
     </>
   );
 }
