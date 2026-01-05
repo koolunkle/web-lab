@@ -3,7 +3,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      <h1 class="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <p className="text-lg underline font-bold mt-4 text-blue-600">
         Tailwind makes styling easy!
       </p>
@@ -21,7 +21,7 @@ function App() {
         <p className="text-xl font-bold">Text 2</p>
         <p className="text-xl font-bold">Text 3</p>
       </div>
-      <table class="table-auto w-full border-collapse border mt-4 border-gray-300 shadow-lg rounded-lg">
+      <table className="table-auto w-full border-collapse border mt-4 border-gray-300 shadow-lg rounded-lg">
         <thead>
           <tr className="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
             <th className="border border-gray-300 px-6 py-3 text-center">
