@@ -11,7 +11,13 @@ public class SpringMain {
 
         var context = new AnnotationConfigApplicationContext(ProjectConfig.class);
 
-        Vehicle vehicle = context.getBean("vehicle1", Vehicle.class);
-        System.out.println("Vehicle name from Spring Context is: " + vehicle.getName());
+        Vehicle audiVehicle = context.getBean("audiVehicle", Vehicle.class);
+        System.out.println("Vehicle name from Spring Context is: " + audiVehicle.getName());
+
+        Vehicle hondaVehicle = context.getBean("hondaVehicle", Vehicle.class);
+        System.out.println("Vehicle name from Spring Context is: " + hondaVehicle.getName());
+
+        Vehicle ferrariVehicle = context.getBean("ferrariVehicle", Vehicle.class);
+        System.out.println("Vehicle name from Spring Context is: " + ferrariVehicle.getName());
     }
 }
