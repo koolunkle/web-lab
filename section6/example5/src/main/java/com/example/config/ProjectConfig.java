@@ -16,11 +16,21 @@ public class ProjectConfig {
         return vehicle;
     }
 
+    /*
+     * @Bean
+     * Person person() {
+     * Person person = new Person();
+     * person.setName("Lucy");
+     * person.setVehicle(vehicle()); // Using method invocation
+     * return person;
+     * }
+     */
+
     @Bean
-    Person person() {
+    Person person(Vehicle vehicle) { // Using method parameters
         Person person = new Person();
         person.setName("Lucy");
-        person.setVehicle(vehicle()); // Using method invocation
+        person.setVehicle(vehicle);
         return person;
     }
 }
