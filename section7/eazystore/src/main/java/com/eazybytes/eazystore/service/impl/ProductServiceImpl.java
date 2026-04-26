@@ -1,9 +1,12 @@
 package com.eazybytes.eazystore.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.eazybytes.eazystore.dto.ProductDto;
 import com.eazybytes.eazystore.entity.Product;
 import com.eazybytes.eazystore.repository.ProductRepository;
 import com.eazybytes.eazystore.service.IProductService;
@@ -17,7 +20,16 @@ public class ProductServiceImpl implements IProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<ProductDto> getProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(this::transformToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ProductDto transformToDTO(Product product) {
+        ProductDto productDto = new ProductDto();
+        BeanUtils.copyProperties(product, productDto);
+        return productDto;
     }
 }
