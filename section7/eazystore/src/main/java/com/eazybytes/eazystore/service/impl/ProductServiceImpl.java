@@ -30,6 +30,7 @@ public class ProductServiceImpl implements IProductService {
     private ProductDto transformToDTO(Product product) {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(product, productDto);
+        productDto.setProductId(product.getId());
         return productDto;
     }
 }
