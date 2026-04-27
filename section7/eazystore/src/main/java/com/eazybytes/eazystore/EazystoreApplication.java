@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+// @EnableJpaRepositories
+// @EntityScan
 // @ComponentScan(basePackages = { "com.eazybytes.eazystore.controller" })
 public class EazystoreApplication {
 
