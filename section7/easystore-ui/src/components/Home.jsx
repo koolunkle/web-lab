@@ -1,9 +1,23 @@
-import products from "../data/products";
+import { useEffect, useState } from "react";
+import apiClient from "../api/apiClient";
 import PageHeading from "./PageHeading";
 import ProductListings from "./ProductListings";
-import apiClient from "../api/apiClient";
 
+// Hooks
 export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  // Run once when the component mounts
+  // Mounting is th process of creating and adding the component into DOM
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    const response = await apiClient.get("products"); // Axios GET Request
+    setProducts(response.data); // Update products state with fetched data
+  };
+
   return (
     <div className="max-w-[1152px] mx-auto px-6 py-8">
       <PageHeading title="Explore Eazy Stickers!">
