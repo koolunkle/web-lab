@@ -2,7 +2,6 @@ package com.eazybytes.eazystore.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +20,8 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping
-    public List<ProductDto> getProducts() {
+    public List<ProductDto> getProducts() throws InterruptedException {
+        Thread.sleep(3000);
         List<ProductDto> productList = productService.getProducts();
         return productList;
     }
