@@ -50,7 +50,7 @@ export default function Header() {
           </button>
           <ul className="flex space-x-6">
             <li>
-              <a href="/" className={navLinkClass}>
+              <a href="/home" className={navLinkClass}>
                 Home
               </a>
             </li>

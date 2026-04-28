@@ -13,26 +13,32 @@ const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-    {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/contact",
-    element: <Contact />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+    ],
   },
 ]);
 
