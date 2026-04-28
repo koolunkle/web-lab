@@ -1,9 +1,17 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation } from "react-router-dom";
 import PageHeading from "./PageHeading";
 import ProductListings from "./ProductListings";
 
 export default function Home() {
   const products = useLoaderData();
+  const location = useLocation();
+
+  const username = location.state?.username || "Guest";
+  const path = location.pathname;
+  
+  console.log(username);
+  console.log(path);
+
   return (
     <div className="max-w-[1152px] mx-auto px-6 py-8">
       <PageHeading title="Explore Eazy Stickers!">
