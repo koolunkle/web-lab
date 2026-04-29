@@ -19,9 +19,15 @@ import Home from "./components/Home.jsx";
 import Login from "./components/Login.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import "./index.css";
+import HydrateFallback from "./components/HydrateFallback.jsx";
 
 const routeDefinitions = createRoutesFromElements(
-  <Route path="/" element={<App />} errorElement={<ErrorPage />}>
+  <Route
+    path="/"
+    element={<App />}
+    errorElement={<ErrorPage />}
+    HydrateFallback={HydrateFallback}
+  >
     <Route index element={<Home />} loader={productsLoader} />
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
