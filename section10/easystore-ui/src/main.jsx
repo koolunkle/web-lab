@@ -6,6 +6,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { contactAction } from "./api/contactAction.js";
 import { productsLoader } from "./api/productsLoader.js";
 import App from "./App.jsx";
@@ -67,5 +69,15 @@ const appRouter = createBrowserRouter(routeDefinitions);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={appRouter} />
+    <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      draggable
+      pauseOnHover
+      theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
+      transition={Bounce}
+    />
   </StrictMode>,
 );
