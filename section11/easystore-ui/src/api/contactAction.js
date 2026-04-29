@@ -15,7 +15,9 @@ export async function contactAction({ request }) {
     // return redirect("/home");
   } catch (error) {
     throw new Response(
-      error.message || "Failed to submit your message. Please try again.",
+      error.response?.data?.errorMessage ||
+        error.message ||
+        "Failed to submit your message. Please try again.",
       { status: error.status || 500 },
     );
   }
