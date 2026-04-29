@@ -16,5 +16,15 @@
 
 # GET http://localhost:8080/api/v1/dummy/user/map/123/posts/456
 
-GET http://localhost:8080/api/v1/dummy/headers
-User-Location: Hyderabad
+# GET http://localhost:8080/api/v1/dummy/headers
+# User-Location: Hyderabad
+
+POST http://localhost:8080/api/v1/dummy/request-entity
+Content-Type: application/json
+
+{
+    "userId":1,
+    "name":"tester",
+    "email":"test@gmail.com",
+    "mobileNumber":"0212345678"
+}

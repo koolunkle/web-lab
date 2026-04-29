@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,14 @@ public class DummyController {
     public String createUser(@RequestBody UserDto userDto) {
         System.out.println(userDto);
         return "User created successfully";
+    }
+
+    @PostMapping("/request-entity")
+    public String createUserWithEntity(RequestEntity<UserDto> requestEntity) {
+        HttpHeaders header = requestEntity.getHeaders();
+        UserDto userDto = requestEntity.getBody();
+        // String queryString = requestEntity.getUrl().getQuery();
+        return "User created successfully" + "\n" + "header : " + header + "\n" + "body : " + userDto;
     }
 
     // @GetMapping("/headers")
