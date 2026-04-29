@@ -1,9 +1,17 @@
-POST http://localhost:8080/api/v1/dummy/create-user
-Content-Type: application/json
+# POST http://localhost:8080/api/v1/dummy/create-user
+# Content-Type: application/json
 
-{
-    "userId":1,
-    "name":"tester",
-    "email":"test@gmail.com",
-    "mobileNumber":"0212345678"
-}
+# {
+#     "userId":1,
+#     "name":"tester",
+#     "email":"test@gmail.com",
+#     "mobileNumber":"0212345678"
+# }
+
+# GET http://localhost:8080/api/v1/dummy/search?name=tester
+
+# GET http://localhost:8080/api/v1/dummy/multiple-search?firstName=Sam&lastName=Kim
+
+# GET http://localhost:8080/api/v1/dummy/user/123/posts/456
+
+GET http://localhost:8080/api/v1/dummy/user/map/123/posts/456
