@@ -2,6 +2,7 @@ package com.eazybytes.eazystore.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,9 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping
-    public List<ProductDto> getProducts() throws InterruptedException {
+    public ResponseEntity<List<ProductDto>> getProducts() throws InterruptedException {
         List<ProductDto> productList = productService.getProducts();
-        return productList;
+        // return ResponseEntity.status(HttpStatus.CREATED).body(productList);
+        return ResponseEntity.ok(productList);
     }
 }
