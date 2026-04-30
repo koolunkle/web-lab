@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eazybytes.eazystore.scopes.ApplicationScopedBean;
 import com.eazybytes.eazystore.scopes.RequestScopedBean;
 import com.eazybytes.eazystore.scopes.SessionScopedBean;
 
@@ -19,6 +20,8 @@ public class ScopeController {
 
     private final SessionScopedBean sessionScopedBean;
 
+    private final ApplicationScopedBean applicationScopedBean;
+
     @GetMapping("/request")
     public ResponseEntity<String> testRequestScope() {
         requestScopedBean.setUserName("Jane Doe");
@@ -31,8 +34,14 @@ public class ScopeController {
         return ResponseEntity.ok(sessionScopedBean.getUserName());
     }
 
+    @GetMapping("/application")
+    public ResponseEntity<Integer> testApplicationScope() {
+        applicationScopedBean.incrementVisitorCount();
+        return ResponseEntity.ok(applicationScopedBean.getVistorCount());
+    }
+
     @GetMapping("/test")
-    public ResponseEntity<String> testScope() {
-        return ResponseEntity.ok(sessionScopedBean.getUserName());
+    public ResponseEntity<Integer> testScope() {
+        return ResponseEntity.ok(applicationScopedBean.getVistorCount());
     }
 }
