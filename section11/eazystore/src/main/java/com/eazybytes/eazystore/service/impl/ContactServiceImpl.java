@@ -1,7 +1,5 @@
 package com.eazybytes.eazystore.service.impl;
 
-import java.time.Instant;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +19,6 @@ public class ContactServiceImpl implements IContactService {
     @Override
     public boolean saveContact(ContactRequestDto contactRequestDto) {
         Contact contact = transformToEntity(contactRequestDto);
-        contact.setCreatedAt(Instant.now());
-        contact.setCreatedBy(contactRequestDto.getName());
         contactRepository.save(contact);
         return true;
     }
