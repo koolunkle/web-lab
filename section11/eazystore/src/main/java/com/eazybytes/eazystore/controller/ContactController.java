@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eazybytes.eazystore.dto.ContactRequestDto;
 import com.eazybytes.eazystore.service.IContactService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +21,7 @@ public class ContactController {
     private final IContactService contactService;
 
     @PostMapping
-    public ResponseEntity<String> saveContact(@RequestBody ContactRequestDto contactRequestDto) {
+    public ResponseEntity<String> saveContact(@Valid @RequestBody ContactRequestDto contactRequestDto) {
         contactService.saveContact(contactRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Request processed successfully");
     }
