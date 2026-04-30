@@ -14,6 +14,9 @@ export async function contactAction({ request }) {
     return { success: true };
     // return redirect("/home");
   } catch (error) {
+    if (error.response?.status === 400) {
+      return { success: false, errors: error.response?.data };
+    }
     throw new Response(
       error.response?.data?.errorMessage ||
         error.message ||
