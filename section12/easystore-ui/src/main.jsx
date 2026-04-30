@@ -22,7 +22,7 @@ import ProductDetail from "./components/ProductDetail.jsx";
 import "./index.css";
 import {
   CartProvider
-} from "./store/cart-context.jsx";
+} from "./store/cart-provider.jsx";
 
 const routeDefinitions = createRoutesFromElements(
   <Route

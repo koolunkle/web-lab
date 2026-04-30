@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../store/cart-context";
+import { useCart } from "../store/cart-context";
 import Price from "./Price";
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useContext(CartContext);
+  const { addToCart } = useCart();
   return (
     <div className="w-72 rounded-md mx-auto border border-gray-300 dark:border-gray-600 shadow-md overflow-hidden flex flex-col bg-white dark:bg-gray-800 hover:border-primary dark:hover:border-lighter transition">
       <Link

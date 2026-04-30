@@ -5,16 +5,16 @@ import {
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { CartContext } from "../store/cart-context";
+import { useCart } from "../store/cart-context";
 
 export default function Header() {
   const [theme, setTheme] = useState(() =>
     localStorage.getItem("theme") === "dark" ? "dark" : "light",
   );
 
-  const { totalQuantity } = useContext(CartContext);
+  const { totalQuantity } = useCart();
 
   useEffect(() => {
     if (theme === "dark") {
