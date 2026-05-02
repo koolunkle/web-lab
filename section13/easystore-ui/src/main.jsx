@@ -14,6 +14,7 @@ import { productsLoader } from "./api/productsLoader.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
 import Cart from "./components/Cart.jsx";
+import CheckoutForm from "./components/CheckoutForm.jsx";
 import Contact from "./components/Contact.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./components/Home.jsx";
@@ -37,6 +38,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/contact" element={<Contact />} action={contactAction} />
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
+    <Route path="/checkout" element={<CheckoutForm />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
   </Route>,
 );

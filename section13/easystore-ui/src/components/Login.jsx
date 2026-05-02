@@ -7,6 +7,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../store/auth-context";
 import PageTitle from "./PageTitle";
 
 export default function Login() {
@@ -14,14 +15,16 @@ export default function Login() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
+  const { loginSuccess } = useAuth();
 
   useEffect(() => {
     if (actionData?.success) {
+      loginSuccess(actionData.jwtToken, actionData.user);
       navigate("/home");
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate]);
+  }, [actionData, navigate, loginSuccess]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
