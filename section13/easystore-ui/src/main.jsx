@@ -21,6 +21,7 @@ import HydrateFallback from "./components/HydrateFallback.jsx";
 import Login from "./components/Login.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import "./index.css";
+import { AuthProvider } from "./store/auth-provider.jsx";
 import { CartProvider } from "./store/cart-provider.jsx";
 
 const routeDefinitions = createRoutesFromElements(
@@ -44,9 +45,11 @@ const appRouter = createBrowserRouter(routeDefinitions);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <CartProvider>
-      <RouterProvider router={appRouter} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={appRouter} />
+      </CartProvider>
+    </AuthProvider>
     <ToastContainer
       position="top-center"
       autoClose={3000}
