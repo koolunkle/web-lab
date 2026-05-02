@@ -13,6 +13,8 @@ import { loginAction } from "./api/loginAction.js";
 import { productsLoader } from "./api/productsLoader.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
+import AdminOrders from "./components/admin/AdminOrders.jsx";
+import AdminMessages from "./components/admin/AdminMessages.jsx";
 import Cart from "./components/Cart.jsx";
 import CheckoutForm from "./components/CheckoutForm.jsx";
 import Contact from "./components/Contact.jsx";
@@ -20,7 +22,9 @@ import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./components/Home.jsx";
 import HydrateFallback from "./components/HydrateFallback.jsx";
 import Login from "./components/Login.jsx";
+import Orders from "./components/Orders.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
+import Profile from "./components/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./index.css";
 import { AuthProvider } from "./store/auth-provider.jsx";
@@ -42,6 +46,10 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/products/:productId" element={<ProductDetail />} />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
+      <Route path="/admin/messages" element={<AdminMessages />} />
     </Route>
   </Route>,
 );
