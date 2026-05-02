@@ -10,6 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -64,5 +69,31 @@ public class EazyStoreSecurityConfig {
         source.registerCorsConfiguration("/**", config);
 
         return source;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        var user1 = User.builder()
+                .username("koolunkle")
+                // .password("eazystore")
+                // .password(passwordEncoder.encode("eazystore"))
+                .password("$2a$12$OvSj0esHiBbu2yd8gl.7judMh/GWu7ez7W0lrzE.YlDfQptj8B/wC")
+                .roles("USER")
+                .build();
+
+        var user2 = User.builder()
+                .username("admin")
+                // .password("admin")
+                // .password(passwordEncoder.encode("admin"))
+                .password("$2a$12$zLVRmhKwkJwFay8rcvEe4uGFNR4jnCdO43kiQb1IBioqGYil3gLQa")
+                .roles("USER", "ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user1, user2);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
