@@ -21,6 +21,7 @@ import Home from "./components/Home.jsx";
 import HydrateFallback from "./components/HydrateFallback.jsx";
 import Login from "./components/Login.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./index.css";
 import { AuthProvider } from "./store/auth-provider.jsx";
 import { CartProvider } from "./store/cart-provider.jsx";
@@ -38,8 +39,10 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/contact" element={<Contact />} action={contactAction} />
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/checkout" element={<CheckoutForm />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
+    <Route element={<ProtectedRoute />}>
+      <Route path="/checkout" element={<CheckoutForm />} />
+    </Route>
   </Route>,
 );
 
