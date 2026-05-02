@@ -16,15 +16,17 @@ export default function Login() {
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
   const { loginSuccess } = useAuth();
+  const from = sessionStorage.getItem("redirectPath") || "/home";
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-      navigate("/home");
+      sessionStorage.removeItem("redirectPath");
+      navigate(from);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate, loginSuccess]);
+  }, [actionData, navigate, loginSuccess, from]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
