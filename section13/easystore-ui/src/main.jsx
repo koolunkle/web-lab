@@ -9,6 +9,7 @@ import {
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contactAction } from "./api/contactAction.js";
+import { loginAction } from "./api/loginAction.js";
 import { productsLoader } from "./api/productsLoader.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
@@ -20,9 +21,7 @@ import HydrateFallback from "./components/HydrateFallback.jsx";
 import Login from "./components/Login.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import "./index.css";
-import {
-  CartProvider
-} from "./store/cart-provider.jsx";
+import { CartProvider } from "./store/cart-provider.jsx";
 
 const routeDefinitions = createRoutesFromElements(
   <Route
@@ -35,7 +34,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} action={contactAction} />
-    <Route path="/login" element={<Login />} />
+    <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
   </Route>,
