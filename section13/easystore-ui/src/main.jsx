@@ -25,7 +25,7 @@ import Login from "./components/Login.jsx";
 import Orders from "./components/Orders.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import Profile from "./components/Profile.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import "./index.css";
 import { AuthProvider } from "./store/auth-provider.jsx";
 import { CartProvider } from "./store/cart-provider.jsx";

@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../store/auth-context";
-import { useCart } from "../store/cart-context";
+import { useAuth } from "../../store/auth-context";
+import { useCart } from "../../store/cart-context";
 
 export default function Header() {
   const [theme, setTheme] = useState(() =>
