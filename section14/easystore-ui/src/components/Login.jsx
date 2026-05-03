@@ -19,15 +19,20 @@ export default function Login() {
   const { loginSuccess } = useAuth();
 
   const from = location.state?.from || "/home";
+  const skipRedirect = location.state?.skipRedirect;
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-      navigate(actionData.from || "/home", { replace: true });
+      if (skipRedirect) {
+        navigate("/home", { replace: true });
+      } else {
+        navigate(actionData.from || from, { replace: true });
+      }
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate, loginSuccess]);
+  }, [actionData, navigate, loginSuccess, skipRedirect, from]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";

@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { contactAction } from "./api/contact-action.js";
 import { loginAction } from "./api/login-action.js";
 import { productsLoader } from "./api/products-loader.js";
+import { profileAction } from "./api/profile-action.js";
+import { profileLoader } from "./api/profile-loader.js";
 import { registerAction } from "./api/register-action.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
@@ -49,7 +51,12 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/products/:productId" element={<ProductDetail />} />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route
+        path="/profile"
+        element={<Profile />}
+        loader={profileLoader}
+        action={profileAction}
+      />
       <Route path="/orders" element={<Orders />} />
       <Route path="/admin/orders" element={<AdminOrders />} />
       <Route path="/admin/messages" element={<AdminMessages />} />
