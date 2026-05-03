@@ -141,7 +141,11 @@ export default function Header() {
                     className="relative text-primary"
                   >
                     <span className={navLinkClass}>
-                      Hello {user?.name || "Guest"}
+                      {`Hello ${
+                        user.name.length > 5
+                          ? `${user.name.slice(0, 5)}...`
+                          : user.name
+                      }`}
                     </span>
                     <FontAwesomeIcon
                       icon={faAngleDown}
