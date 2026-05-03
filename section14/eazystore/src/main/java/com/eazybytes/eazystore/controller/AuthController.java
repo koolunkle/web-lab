@@ -1,5 +1,9 @@
 package com.eazybytes.eazystore.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,14 +63,32 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
         // inMemoryUserDetailsManager
         // .createUser(new User(registerRequestDto.getEmail(),
         // passwordEncoder.encode(registerRequestDto.getPassword()),
         // List.of(new SimpleGrantedAuthority("USER"))));
 
+        Optional<Customer> existingCustomer = customerRepository
+                .findByEmailOrMobileNumber(registerRequestDto.getEmail(), registerRequestDto.getMobileNumber());
+
+        if (existingCustomer.isPresent()) {
+            Map<String, String> errors = new HashMap<>();
+            Customer customer = existingCustomer.get();
+
+            if (customer.getEmail().equalsIgnoreCase(registerRequestDto.getEmail())) {
+                errors.put("email", "Email is already registered");
+            }
+
+            if (customer.getMobileNumber().equalsIgnoreCase(registerRequestDto.getMobileNumber())) {
+                errors.put("mobileNumber", "Mobile number is already registered");
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
         Customer customer = new Customer();
-        
+
         BeanUtils.copyProperties(registerRequestDto, customer);
         customer.setPasswordHash(passwordEncoder.encode(registerRequestDto.getPassword()));
         customerRepository.save(customer);
