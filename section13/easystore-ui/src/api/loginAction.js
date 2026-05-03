@@ -2,6 +2,7 @@ import apiClient from "./apiClient";
 
 export async function loginAction({ request }) {
   const data = await request.formData();
+  const redirectData = data.get("redirectPath");
   const loginData = {
     username: data.get("username"),
     password: data.get("password"),
@@ -10,7 +11,7 @@ export async function loginAction({ request }) {
   try {
     const response = await apiClient.post("/auth/login", loginData);
     const { message, user, jwtToken } = response.data;
-    return { success: true, message, user, jwtToken };
+    return { success: true, message, user, jwtToken, from: redirectData };
   } catch (error) {
     if (error.response?.status === 401) {
       return {

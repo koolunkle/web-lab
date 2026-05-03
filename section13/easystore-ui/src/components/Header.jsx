@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth-context";
 import { useCart } from "../store/cart-context";
@@ -18,13 +18,12 @@ export default function Header() {
   );
 
   const isAdmin = true;
-  const location = useLocation();
+
   const userMenuRef = useRef();
   const navigate = useNavigate();
 
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
-  const [prevPath, setPrevPath] = useState(location.pathname);
 
   const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
   const toggleAdminMenu = () => setAdminMenuOpen((prev) => !prev);
@@ -54,12 +53,6 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  if (location.pathname !== prevPath) {
-    setPrevPath(location.pathname);
-    setUserMenuOpen(false);
-    setAdminMenuOpen(false);
-  }
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {

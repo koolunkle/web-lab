@@ -3,30 +3,31 @@ import {
   Form,
   Link,
   useActionData,
+  useLocation,
   useNavigate,
   useNavigation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth-context";
 import PageTitle from "./PageTitle";
-
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
+  const location = useLocation();
   const { loginSuccess } = useAuth();
-  const from = sessionStorage.getItem("redirectPath") || "/home";
+
+  const from = location.state?.from || "/home";
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-      sessionStorage.removeItem("redirectPath");
-      navigate(from);
+      navigate(actionData.from || "/home", { replace: true });
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate, loginSuccess, from]);
+  }, [actionData, navigate, loginSuccess]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
@@ -41,6 +42,7 @@ export default function Login() {
         {/* Form */}
         <Form method="POST" className="space-y-6">
           {/* Email Field */}
+          <input type="hidden" name="redirectPath" value={from} />
           <div>
             <label htmlFor="username" className={labelStyle}>
               Username
