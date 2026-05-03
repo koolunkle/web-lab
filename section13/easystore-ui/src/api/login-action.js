@@ -1,4 +1,4 @@
-import apiClient from "./apiClient";
+import apiClient from "./api-client";
 
 export async function loginAction({ request }) {
   const data = await request.formData();

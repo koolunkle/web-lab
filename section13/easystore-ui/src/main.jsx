@@ -8,10 +8,10 @@ import {
 } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { contactAction } from "./api/contactAction.js";
-import { loginAction } from "./api/loginAction.js";
-import { productsLoader } from "./api/productsLoader.js";
-import { registerAction } from "./api/registerAction.js";
+import { contactAction } from "./api/contact-action.js";
+import { loginAction } from "./api/login-action.js";
+import { productsLoader } from "./api/products-loader.js";
+import { registerAction } from "./api/register-action.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
 import AdminMessages from "./components/admin/AdminMessages.jsx";

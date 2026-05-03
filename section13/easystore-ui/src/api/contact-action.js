@@ -1,22 +1,22 @@
-import apiClient from "./apiClient";
+import apiClient from "./api-client";
 
-export async function registerAction({ request }) {
+export async function contactAction({ request }) {
   const data = await request.formData();
-  const registerData = {
+  const contactData = {
     name: data.get("name"),
     email: data.get("email"),
     mobileNumber: data.get("mobileNumber"),
-    password: data.get("password"),
+    message: data.get("message"),
   };
 
   try {
-    const response = await apiClient.post("/auth/register", registerData);
+    await apiClient.post("/contacts", contactData);
     return { success: true };
+    // return redirect("/home");
   } catch (error) {
     if (error.response?.status === 400) {
       return { success: false, errors: error.response?.data };
     }
-
     throw new Response(
       error.response?.data?.errorMessage ||
         error.message ||
