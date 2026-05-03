@@ -9,8 +9,8 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -106,13 +106,14 @@ public class EazyStoreSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider) {
         // var daoAuthenticationProvider = new
         // DaoAuthenticationProvider(userDetailsService);
-        var daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
-        var providerManager = new ProviderManager(daoAuthenticationProvider);
+        // var daoAuthenticationProvider = new DaoAuthenticationProvider();
+        // daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        var providerManager = new ProviderManager(authenticationProvider);
 
         return providerManager;
     }

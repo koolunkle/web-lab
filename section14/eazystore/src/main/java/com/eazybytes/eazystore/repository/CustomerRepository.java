@@ -8,5 +8,7 @@ import com.eazybytes.eazystore.entity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+    Optional<Customer> findByEmail(String email);
+
     Optional<Customer> findByEmailOrMobileNumber(String email, String mobileNumber);
 }
