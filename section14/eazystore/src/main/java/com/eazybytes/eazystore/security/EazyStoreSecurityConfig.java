@@ -56,7 +56,7 @@ public class EazyStoreSecurityConfig {
                     publicPaths.forEach((path) -> request.requestMatchers(path).permitAll());
                     request.anyRequest().authenticated();
                 })
-                .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();
