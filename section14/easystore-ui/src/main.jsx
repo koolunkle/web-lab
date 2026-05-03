@@ -1,0 +1,80 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { contactAction } from "./api/contact-action.js";
+import { loginAction } from "./api/login-action.js";
+import { productsLoader } from "./api/products-loader.js";
+import { registerAction } from "./api/register-action.js";
+import App from "./App.jsx";
+import About from "./components/About.jsx";
+import AdminMessages from "./components/admin/AdminMessages.jsx";
+import AdminOrders from "./components/admin/AdminOrders.jsx";
+import Cart from "./components/Cart.jsx";
+import CheckoutForm from "./components/CheckoutForm.jsx";
+import Contact from "./components/Contact.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
+import Home from "./components/Home.jsx";
+import HydrateFallback from "./components/HydrateFallback.jsx";
+import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
+import Login from "./components/Login.jsx";
+import Orders from "./components/Orders.jsx";
+import ProductDetail from "./components/ProductDetail.jsx";
+import Profile from "./components/Profile.jsx";
+import Register from "./components/Register.jsx";
+import "./index.css";
+import { AuthProvider } from "./store/auth-provider.jsx";
+import { CartProvider } from "./store/cart-provider.jsx";
+
+const routeDefinitions = createRoutesFromElements(
+  <Route
+    path="/"
+    element={<App />}
+    errorElement={<ErrorPage />}
+    HydrateFallback={HydrateFallback}
+  >
+    <Route index element={<Home />} loader={productsLoader} />
+    <Route path="/home" element={<Home />} loader={productsLoader} />
+    <Route path="/about" element={<About />} />
+    <Route path="/contact" element={<Contact />} action={contactAction} />
+    <Route path="/login" element={<Login />} action={loginAction} />
+    <Route path="/register" element={<Register />} action={registerAction} />
+    <Route path="/cart" element={<Cart />} />
+    <Route path="/products/:productId" element={<ProductDetail />} />
+    <Route element={<ProtectedRoute />}>
+      <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
+      <Route path="/admin/messages" element={<AdminMessages />} />
+    </Route>
+  </Route>,
+);
+
+const appRouter = createBrowserRouter(routeDefinitions);
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={appRouter} />
+      </CartProvider>
+    </AuthProvider>
+    <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      draggable
+      pauseOnHover
+      theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
+      transition={Bounce}
+    />
+  </StrictMode>,
+);
