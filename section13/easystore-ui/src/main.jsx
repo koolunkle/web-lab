@@ -11,21 +11,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { contactAction } from "./api/contactAction.js";
 import { loginAction } from "./api/loginAction.js";
 import { productsLoader } from "./api/productsLoader.js";
+import { registerAction } from "./api/registerAction.js";
 import App from "./App.jsx";
 import About from "./components/About.jsx";
-import AdminOrders from "./components/admin/AdminOrders.jsx";
 import AdminMessages from "./components/admin/AdminMessages.jsx";
+import AdminOrders from "./components/admin/AdminOrders.jsx";
 import Cart from "./components/Cart.jsx";
 import CheckoutForm from "./components/CheckoutForm.jsx";
 import Contact from "./components/Contact.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./components/Home.jsx";
 import HydrateFallback from "./components/HydrateFallback.jsx";
+import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import Orders from "./components/Orders.jsx";
 import ProductDetail from "./components/ProductDetail.jsx";
 import Profile from "./components/Profile.jsx";
-import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
+import Register from "./components/Register.jsx";
 import "./index.css";
 import { AuthProvider } from "./store/auth-provider.jsx";
 import { CartProvider } from "./store/cart-provider.jsx";
@@ -42,6 +44,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} action={contactAction} />
     <Route path="/login" element={<Login />} action={loginAction} />
+    <Route path="/register" element={<Register />} action={registerAction} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
     <Route element={<ProtectedRoute />}>
