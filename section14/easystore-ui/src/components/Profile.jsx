@@ -7,7 +7,6 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../store/auth-context";
 import PageTitle from "./PageTitle";
 
 export default function Profile() {
@@ -18,7 +17,6 @@ export default function Profile() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
-  const { logout } = useAuth();
   const [profileData, setProfileData] = useState(initialProfileData);
   const [prevActionData, setPrevActionData] = useState(actionData);
 
@@ -28,20 +26,22 @@ export default function Profile() {
       setProfileData(actionData.profileData);
     }
   }
-  
+
   useEffect(() => {
     if (actionData?.success) {
       if (actionData.profileData.emailUpdated) {
-        logout();
+        navigate("/login", {
+          state: { from: "/home", skipRedirect: true },
+          replace: true,
+        });
         toast.success(
           "Logged out successfully! Login again with updated email",
         );
-        navigate("/login", { state: { skipRedirect: true }, replace: true });
       } else {
         toast.success("Your Profile details are saved successfully!");
       }
     }
-  }, [actionData, navigate, logout]);
+  }, [actionData, navigate]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";

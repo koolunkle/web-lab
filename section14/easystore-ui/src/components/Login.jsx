@@ -10,28 +10,36 @@ import {
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth-context";
 import PageTitle from "./PageTitle";
+
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginSuccess } = useAuth();
+  const { loginSuccess, logout } = useAuth();
 
   const from = location.state?.from || "/home";
-  const skipRedirect = location.state?.skipRedirect;
+  const skipRedirect = location.state?.skipRedirect || false;
+
+  useEffect(() => {
+    if (skipRedirect) {
+      logout();
+    }
+  }, [skipRedirect, logout]);
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-      const destination = skipRedirect ? "/home" : actionData.from || from;
       setTimeout(() => {
-        navigate(destination, { replace: true });
+        navigate(actionData.skipRedirect ? "/home" : actionData.from, {
+          replace: true,
+        });
       }, 100);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate, loginSuccess, skipRedirect, from]);
+  }, [actionData, navigate, loginSuccess]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
@@ -46,7 +54,8 @@ export default function Login() {
         {/* Form */}
         <Form method="POST" className="space-y-6">
           {/* Email Field */}
-          <input type="hidden" name="redirectPath" value={from} />
+          <input type="hidden" name="from" value={from} />
+          <input type="hidden" name="skipRedirect" value={skipRedirect} />
           <div>
             <label htmlFor="username" className={labelStyle}>
               Username
