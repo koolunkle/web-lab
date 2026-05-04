@@ -5,12 +5,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useCart } from "../store/cart-context";
 
 export default function ProductDetail() {
   const location = useLocation();
-  const product = location.state?.product;
+  const loaderData = useLoaderData();
+  const product = location.state?.product ?? loaderData;
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const zoomRef = useRef(null);

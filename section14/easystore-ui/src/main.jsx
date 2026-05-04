@@ -10,6 +10,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contactAction } from "./api/contact-action.js";
 import { loginAction } from "./api/login-action.js";
+import { productDetailLoader } from "./api/product-detail-loader.js";
 import { productsLoader } from "./api/products-loader.js";
 import { profileAction } from "./api/profile-action.js";
 import { profileLoader } from "./api/profile-loader.js";
@@ -48,7 +49,11 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/register" element={<Register />} action={registerAction} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/products/:productId" element={<ProductDetail />} />
+    <Route
+      path="/products/:productId"
+      element={<ProductDetail />}
+      loader={productDetailLoader}
+    />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
       <Route
