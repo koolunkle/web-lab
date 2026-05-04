@@ -7,4 +7,6 @@ import com.eazybytes.eazystore.dto.ProductDto;
 public interface IProductService {
 
     List<ProductDto> getProducts();
+
+    ProductDto getProductById(Long productId);
 }

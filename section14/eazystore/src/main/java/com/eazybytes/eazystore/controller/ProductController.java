@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,11 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() throws InterruptedException {
         List<ProductDto> productList = productService.getProducts();
-        // return ResponseEntity.status(HttpStatus.CREATED).body(productList);
         return ResponseEntity.ok(productList);
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
+        return ResponseEntity.ok(productService.getProductById(productId));
     }
 }
