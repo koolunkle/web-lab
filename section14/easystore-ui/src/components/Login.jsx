@@ -24,11 +24,10 @@ export default function Login() {
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-      if (skipRedirect) {
-        navigate("/home", { replace: true });
-      } else {
-        navigate(actionData.from || from, { replace: true });
-      }
+      const destination = skipRedirect ? "/home" : actionData.from || from;
+      setTimeout(() => {
+        navigate(destination, { replace: true });
+      }, 100);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
