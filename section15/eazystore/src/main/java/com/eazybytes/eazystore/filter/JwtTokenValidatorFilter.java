@@ -7,7 +7,6 @@ import java.util.List;
 import javax.crypto.SecretKey;
 
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.eazybytes.eazystore.constants.ApplicationConstants;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -38,7 +38,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader(ApplicationConstants.JWT_HEADER);
 
-        if (null != authHeader) {
+        if (null != authHeader && authHeader.startsWith("Bearer ")) {
             try {
                 // Extract the JWT token
                 String jwt = authHeader.substring(7); // Remove 'Bearer ' prefix
@@ -59,8 +59,11 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 }
+            } catch (ExpiredJwtException exception) {
+                logger.warn("JWT token expired: " + exception.getMessage());
             } catch (Exception exception) {
-                throw new BadCredentialsException("Invalid Token received!");
+                // throw new BadCredentialsException("Invalid Token received!");
+                logger.error("JWT validation failed: " + exception.getMessage());
             }
         }
         filterChain.doFilter(request, response);

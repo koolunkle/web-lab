@@ -23,7 +23,7 @@ apiClient.interceptors.request.use(
     if (!safeMethods.includes(config.method.toUpperCase())) {
       let csrfToken = Cookies.get("XSRF-TOKEN");
       if (!csrfToken) {
-        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token}`, {
+        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
           withCredentials: true,
         });
 
