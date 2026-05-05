@@ -54,7 +54,14 @@ public class EazyStoreSecurityConfig {
                 .cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((request) -> {
                     publicPaths.forEach((path) -> request.requestMatchers(path).permitAll());
-                    request.anyRequest().authenticated();
+                    request.requestMatchers("/api/v1/admin/**")
+                            // .hasAuthority("VIEWORDER");
+                            // .hasAnyAuthority("VIEWORDER", "CONFIRMORDER", "DELETEORDER");
+                            .hasRole("ADMIN");
+                    request.anyRequest()
+                            // .authenticated();
+                            // .hasAuthority("USER");
+                            .hasAnyRole("USER", "ADMIN");
                 })
                 .addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)
                 .formLogin(withDefaults())
