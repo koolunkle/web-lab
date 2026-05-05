@@ -14,6 +14,7 @@ public class PublicPathConfig {
                 "api/v1/products/**",
                 "api/v1/contacts/**",
                 "/api/v1/auth/**",
-                "/error");
+                "/error",
+                "/api/v1/csrf-token");
     }
 }
