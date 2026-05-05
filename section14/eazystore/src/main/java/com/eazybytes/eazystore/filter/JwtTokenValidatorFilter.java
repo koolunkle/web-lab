@@ -2,7 +2,6 @@ package com.eazybytes.eazystore.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.SecretKey;
@@ -11,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -52,8 +52,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                     if (null != secretKey) {
                         Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).getPayload();
                         String username = String.valueOf(claims.get("email"));
+                        String roles = String.valueOf(claims.get("roles"));
                         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                                username, null, Collections.emptyList());
+                                username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(roles));
 
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }

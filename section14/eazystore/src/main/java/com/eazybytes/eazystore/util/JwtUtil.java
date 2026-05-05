@@ -2,11 +2,13 @@ package com.eazybytes.eazystore.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.eazybytes.eazystore.constants.ApplicationConstants;
@@ -35,6 +37,9 @@ public class JwtUtil {
                 .claim("username", fetchedCustomer.getName())
                 .claim("email", fetchedCustomer.getEmail())
                 .claim("mobileNumber", fetchedCustomer.getMobileNumber())
+                .claim("roles",
+                        authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.joining(",")))
                 .issuedAt(new Date())
                 .expiration(new Date((new Date().getTime() + 60 * 60 * 1000)))
                 .signWith(secretKey)
