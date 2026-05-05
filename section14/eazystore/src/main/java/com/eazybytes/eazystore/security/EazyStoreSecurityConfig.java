@@ -61,6 +61,7 @@ public class EazyStoreSecurityConfig {
                     request.anyRequest()
                             // .authenticated();
                             // .hasAuthority("USER");
+                            // .hasRole("DUMMY");
                             .hasAnyRole("USER", "ADMIN");
                 })
                 .addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)

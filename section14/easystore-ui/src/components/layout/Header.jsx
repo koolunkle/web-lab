@@ -16,9 +16,6 @@ export default function Header() {
   const [theme, setTheme] = useState(() =>
     localStorage.getItem("theme") === "dark" ? "dark" : "light",
   );
-
-  const isAdmin = true;
-
   const userMenuRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,6 +35,7 @@ export default function Header() {
 
   const { totalQuantity } = useCart();
   const { isAuthenticated, logout, user } = useAuth();
+  const isAdmin = user?.roles?.includes("ROLE_ADMIN");
 
   useEffect(() => {
     if (theme === "dark") {
