@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eazybytes.eazystore.constants.ApplicationConstants;
+import com.eazybytes.eazystore.dto.ContactResponseDto;
 import com.eazybytes.eazystore.dto.OrderResponseDto;
 import com.eazybytes.eazystore.dto.ResponseDto;
 import com.eazybytes.eazystore.entity.Order;
@@ -43,5 +44,17 @@ public class AdminController {
         Order cancelOrder = iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
 
         return ResponseEntity.ok(new ResponseDto("200", "Order #" + cancelOrder.getOrderId() + " has been cancelled."));
+    }
+
+    @GetMapping("/messages")
+    public ResponseEntity<List<ContactResponseDto>> getAllOpenMessages() {
+        return ResponseEntity.ok(iContactService.getAllOpenMessages());
+    }
+
+    @PatchMapping("/messages/{contactId}/close")
+    public ResponseEntity<ResponseDto> closeMessage(@PathVariable Long contactId) {
+        iContactService.updateMessageStatus(contactId, ApplicationConstants.CLOSED_MESSAGE);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Contact #" + contactId + " has been closed."));
     }
 }
