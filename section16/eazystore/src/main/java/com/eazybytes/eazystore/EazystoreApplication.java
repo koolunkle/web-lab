@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
 // @EnableJpaRepositories
@@ -12,7 +14,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class EazystoreApplication {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.configure()
+				.directory("./eazystore")
+				.ignoreIfMissing()
+				.load();
+		String stripeKey = dotenv.get("STRIPE_API_KEY");
+
+		if (stripeKey != null) {
+			System.setProperty("STRIPE_API_KEY", stripeKey);
+		}
+
 		SpringApplication.run(EazystoreApplication.class, args);
 	}
-
 }
