@@ -30,6 +30,7 @@ import HydrateFallback from "./components/HydrateFallback.jsx";
 import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import Orders from "./components/Orders.jsx";
+import OrderSuccess from "./components/OrderSuccess";
 import ProductDetail from "./components/ProductDetail.jsx";
 import Profile from "./components/Profile.jsx";
 import Register from "./components/Register.jsx";
@@ -62,6 +63,7 @@ const routeDefinitions = createRoutesFromElements(
     />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
       <Route
         path="/profile"
         element={<Profile />}
