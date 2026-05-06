@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { adminOrdersLoader } from "./api/admin-orders-loader.js";
 import { contactAction } from "./api/contact-action.js";
 import { loginAction } from "./api/login-action.js";
 import { ordersLoader } from "./api/orders-loader.js";
@@ -75,7 +76,11 @@ const routeDefinitions = createRoutesFromElements(
         }}
       />
       <Route path="/orders" element={<Orders />} loader={ordersLoader} />
-      <Route path="/admin/orders" element={<AdminOrders />} />
+      <Route
+        path="/admin/orders"
+        element={<AdminOrders />}
+        loader={adminOrdersLoader}
+      />
       <Route path="/admin/messages" element={<AdminMessages />} />
     </Route>
   </Route>,

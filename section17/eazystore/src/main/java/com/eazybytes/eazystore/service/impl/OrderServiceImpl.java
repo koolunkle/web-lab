@@ -68,6 +68,23 @@ public class OrderServiceImpl implements IOrderService {
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<OrderResponseDto> getAllPendingOrders() {
+        List<Order> orders = orderRepository.findByOrderStatus(ApplicationConstants.ORDER_STATUS_CREATED);
+
+        return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Order updateOrderStatus(Long orderId, String orderStatus) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new ResourceNotFoundException("Order", "OrderId", orderId.toString()));
+
+        order.setOrderStatus(orderStatus);
+
+        return orderRepository.save(order);
+    }
+
     /**
      * Map Order entity to OrderResponseDto
      */
