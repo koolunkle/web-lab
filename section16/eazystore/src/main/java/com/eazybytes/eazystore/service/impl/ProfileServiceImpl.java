@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.eazybytes.eazystore.dto.AddressDto;
 import com.eazybytes.eazystore.dto.ProfileRequestDto;
 import com.eazybytes.eazystore.dto.ProfileResponseDto;
 import com.eazybytes.eazystore.entity.Address;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileService implements IprofileService {
+public class ProfileServiceImpl implements IprofileService {
 
     private final CustomerRepository customerRepository;
 
@@ -67,11 +68,9 @@ public class ProfileService implements IprofileService {
         BeanUtils.copyProperties(customer, profileResponseDto);
 
         if (customer.getAddress() != null) {
-            profileResponseDto.setStreet(customer.getAddress().getStreet());
-            profileResponseDto.setCity(customer.getAddress().getCity());
-            profileResponseDto.setState(customer.getAddress().getState());
-            profileResponseDto.setPostalCode(customer.getAddress().getPostalCode());
-            profileResponseDto.setCountry(customer.getAddress().getCountry());
+            AddressDto addressDto = new AddressDto();
+            BeanUtils.copyProperties(customer.getAddress(),addressDto);
+            profileResponseDto.setAddress(addressDto);
         }
 
         return profileResponseDto;
