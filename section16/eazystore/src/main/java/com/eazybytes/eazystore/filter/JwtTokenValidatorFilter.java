@@ -7,6 +7,7 @@ import java.util.List;
 import javax.crypto.SecretKey;
 
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -60,10 +61,13 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                     }
                 }
             } catch (ExpiredJwtException exception) {
-                logger.warn("JWT token expired: " + exception.getMessage());
+                // logger.warn("JWT token expired: " + exception.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token Expired");
+                return;
             } catch (Exception exception) {
-                // throw new BadCredentialsException("Invalid Token received!");
-                logger.error("JWT validation failed: " + exception.getMessage());
+                // logger.error("JWT validation failed: " + exception.getMessage());
+                throw new BadCredentialsException("Invalid Token received!");
             }
         }
         filterChain.doFilter(request, response);
