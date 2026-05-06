@@ -161,7 +161,7 @@ export default function CheckoutForm() {
         <PageTitle title="Complete Your Payment" />
 
         <p className="text-center mt-8 text-lg text-gray-600 dark:text-lighter mb-8">
-          Amount to be charged: <strong>${(totalPrice || 0).toFixed(2)}</strong>
+          Amount to be charged: <strong>${(totalPrice).toFixed(2)}</strong>
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
