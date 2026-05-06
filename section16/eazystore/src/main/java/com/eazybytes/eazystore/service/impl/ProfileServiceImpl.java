@@ -12,13 +12,13 @@ import com.eazybytes.eazystore.dto.ProfileResponseDto;
 import com.eazybytes.eazystore.entity.Address;
 import com.eazybytes.eazystore.entity.Customer;
 import com.eazybytes.eazystore.repository.CustomerRepository;
-import com.eazybytes.eazystore.service.IprofileService;
+import com.eazybytes.eazystore.service.IProfileService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileServiceImpl implements IprofileService {
+public class ProfileServiceImpl implements IProfileService {
 
     private final CustomerRepository customerRepository;
 
@@ -56,7 +56,7 @@ public class ProfileServiceImpl implements IprofileService {
         return profileResponseDto;
     }
 
-    private Customer getAuthenticatedCustomer() {
+    public Customer getAuthenticatedCustomer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
@@ -69,7 +69,7 @@ public class ProfileServiceImpl implements IprofileService {
 
         if (customer.getAddress() != null) {
             AddressDto addressDto = new AddressDto();
-            BeanUtils.copyProperties(customer.getAddress(),addressDto);
+            BeanUtils.copyProperties(customer.getAddress(), addressDto);
             profileResponseDto.setAddress(addressDto);
         }
 

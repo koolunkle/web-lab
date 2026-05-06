@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eazybytes.eazystore.dto.ProfileRequestDto;
 import com.eazybytes.eazystore.dto.ProfileResponseDto;
-import com.eazybytes.eazystore.service.IprofileService;
+import com.eazybytes.eazystore.service.IProfileService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProfileController {
 
-    private final IprofileService iprofileService;
+    private final IProfileService iprofileService;
 
     @GetMapping
     public ResponseEntity<ProfileResponseDto> getProfile() {
