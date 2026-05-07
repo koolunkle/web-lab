@@ -65,7 +65,9 @@ public class OrderServiceImpl implements IOrderService {
         Customer customer = profileService.getAuthenticatedCustomer();
         // List<Order> orders =
         // orderRepository.findByCustomerOrderByCreatedAtDesc(customer);
-        List<Order> orders = orderRepository.findOrdersByCustomer(customer);
+
+        // List<Order> orders = orderRepository.findOrdersByCustomer(customer);
+        List<Order> orders = orderRepository.findOrdersByCustomerWithNativeQuery(customer.getCustomerId());
 
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
@@ -74,7 +76,12 @@ public class OrderServiceImpl implements IOrderService {
     public List<OrderResponseDto> getAllPendingOrders() {
         // List<Order> orders =
         // orderRepository.findByOrderStatus(ApplicationConstants.ORDER_STATUS_CREATED);
-        List<Order> orders = orderRepository.findOrdersByStatus(ApplicationConstants.ORDER_STATUS_CREATED);
+
+        // List<Order> orders =
+        // orderRepository.findOrdersByStatus(ApplicationConstants.ORDER_STATUS_CREATED);
+
+        List<Order> orders = orderRepository
+                .findOrdersByStatusWithNativeQuery(ApplicationConstants.ORDER_STATUS_CREATED);
 
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
