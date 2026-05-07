@@ -30,8 +30,8 @@ import Contact from "./components/Contact.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./components/Home.jsx";
 import HydrateFallback from "./components/HydrateFallback.jsx";
-import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import AdminRoute from "./components/layout/AdminRoute.jsx";
+import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import Orders from "./components/Orders.jsx";
 import OrderSuccess from "./components/OrderSuccess";
@@ -66,7 +66,11 @@ const routeDefinitions = createRoutesFromElements(
       loader={productDetailLoader}
     />
     <Route element={<ProtectedRoute />}>
-      <Route path="/checkout" element={<CheckoutForm />} />
+      <Route
+        path="/checkout"
+        element={<CheckoutForm />}
+        handle={{ sticky: true }}
+      />
       <Route path="/order-success" element={<OrderSuccess />} />
       <Route
         path="/profile"

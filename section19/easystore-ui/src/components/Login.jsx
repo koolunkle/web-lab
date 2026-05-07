@@ -25,7 +25,7 @@ export default function Login() {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
       setTimeout(() => {
-        navigate(actionData.from, { replace: true });
+        navigate(actionData.from || "/home", { replace: true });
       }, 100);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");

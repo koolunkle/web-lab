@@ -73,8 +73,8 @@ export default function Header() {
     setUserMenuOpen(false);
     setAdminMenuOpen(false);
     logout();
+    navigate("/home", { replace: true });
     toast.success("Logged out successfully!");
-    navigate("/home");
   };
 
   const navLinkClass =
