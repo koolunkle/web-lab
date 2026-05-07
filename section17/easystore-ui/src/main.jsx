@@ -31,6 +31,7 @@ import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./components/Home.jsx";
 import HydrateFallback from "./components/HydrateFallback.jsx";
 import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
+import AdminRoute from "./components/layout/AdminRoute.jsx";
 import Login from "./components/Login.jsx";
 import Orders from "./components/Orders.jsx";
 import OrderSuccess from "./components/OrderSuccess";
@@ -77,16 +78,18 @@ const routeDefinitions = createRoutesFromElements(
         }}
       />
       <Route path="/orders" element={<Orders />} loader={ordersLoader} />
-      <Route
-        path="/admin/orders"
-        element={<AdminOrders />}
-        loader={adminOrdersLoader}
-      />
-      <Route
-        path="/admin/messages"
-        element={<AdminMessages />}
-        loader={adminMessagesLoader}
-      />
+      <Route element={<AdminRoute />}>
+        <Route
+          path="/admin/orders"
+          element={<AdminOrders />}
+          loader={adminOrdersLoader}
+        />
+        <Route
+          path="/admin/messages"
+          element={<AdminMessages />}
+          loader={adminMessagesLoader}
+        />
+      </Route>
     </Route>
   </Route>,
 );

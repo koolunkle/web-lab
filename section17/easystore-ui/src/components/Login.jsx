@@ -17,24 +17,15 @@ export default function Login() {
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginSuccess, logout } = useAuth();
+  const { loginSuccess } = useAuth();
 
   const from = location.state?.from || "/home";
-  const skipRedirect = location.state?.skipRedirect || false;
-
-  useEffect(() => {
-    if (skipRedirect) {
-      logout();
-    }
-  }, [skipRedirect, logout]);
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
       setTimeout(() => {
-        navigate(actionData.skipRedirect ? "/home" : actionData.from, {
-          replace: true,
-        });
+        navigate(actionData.from, { replace: true });
       }, 100);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
@@ -55,7 +46,6 @@ export default function Login() {
         <Form method="POST" className="space-y-6">
           {/* Email Field */}
           <input type="hidden" name="from" value={from} />
-          <input type="hidden" name="skipRedirect" value={skipRedirect} />
           <div>
             <label htmlFor="username" className={labelStyle}>
               Username
