@@ -13,7 +13,6 @@ import com.eazybytes.eazystore.constants.ApplicationConstants;
 import com.eazybytes.eazystore.dto.ContactResponseDto;
 import com.eazybytes.eazystore.dto.OrderResponseDto;
 import com.eazybytes.eazystore.dto.ResponseDto;
-import com.eazybytes.eazystore.entity.Order;
 import com.eazybytes.eazystore.service.IContactService;
 import com.eazybytes.eazystore.service.IOrderService;
 
@@ -34,16 +33,20 @@ public class AdminController {
 
     @PatchMapping("/orders/{orderId}/confirm")
     public ResponseEntity<ResponseDto> confirmOrder(@PathVariable Long orderId) {
-        Order confirmOrder = iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CONFIRMED);
+        // Order confirmOrder = iOrderService.updateOrderStatus(orderId,
+        // ApplicationConstants.ORDER_STATUS_CONFIRMED);
+        iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CONFIRMED);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Order #" + confirmOrder.getOrderId() + " has been approved."));
+        return ResponseEntity.ok(new ResponseDto("200", "Order #" + orderId + " has been approved."));
     }
 
     @PatchMapping("/orders/{orderId}/cancel")
     public ResponseEntity<ResponseDto> cancelOrder(@PathVariable Long orderId) {
-        Order cancelOrder = iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
+        // Order cancelOrder = iOrderService.updateOrderStatus(orderId,
+        // ApplicationConstants.ORDER_STATUS_CANCELLED);
+        iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Order #" + cancelOrder.getOrderId() + " has been cancelled."));
+        return ResponseEntity.ok(new ResponseDto("200", "Order #" + orderId + " has been cancelled."));
     }
 
     @GetMapping("/messages")

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.eazybytes.eazystore.dto.OrderRequestDto;
 import com.eazybytes.eazystore.dto.OrderResponseDto;
-import com.eazybytes.eazystore.entity.Order;
 
 public interface IOrderService {
 
@@ -14,5 +13,7 @@ public interface IOrderService {
 
     List<OrderResponseDto> getAllPendingOrders();
 
-    Order updateOrderStatus(Long orderId, String orderStatus);
+    // Order updateOrderStatus(Long orderId, String orderStatus);
+
+    void updateOrderStatus(Long orderId, String orderStatus);
 }
