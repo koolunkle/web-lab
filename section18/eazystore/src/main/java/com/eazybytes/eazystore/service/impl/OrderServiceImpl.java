@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.eazybytes.eazystore.constants.ApplicationConstants;
@@ -98,7 +100,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public void updateOrderStatus(Long orderId, String orderStatus) {
-        orderRepository.updateOrderStatus(orderId, orderStatus);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        orderRepository.updateOrderStatus(orderId, orderStatus, email);
     }
 
     /**
