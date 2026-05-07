@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +15,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "contacts")
+@NamedQuery(name = "Contact.findByStatus", query = "SELECT c FROM Contact c WHERE c.status = :status")
+@NamedNativeQuery(name = "Contact.findByStatusWithNativeQuery", query = "SELECT * FROM contacts WHERE status = :status", resultClass = Contact.class)
 public class Contact extends BaseEntity {
 
     @Id

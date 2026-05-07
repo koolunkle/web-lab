@@ -31,7 +31,9 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     public List<ContactResponseDto> getAllOpenMessages() {
-        List<Contact> contact = contactRepository.findByStatus(ApplicationConstants.OPEN_MESSAGE);
+        // List<Contact> contact =
+        // contactRepository.findByStatus(ApplicationConstants.OPEN_MESSAGE);
+        List<Contact> contact = contactRepository.fetchByStatus(ApplicationConstants.OPEN_MESSAGE);
 
         return contact.stream().map(this::mapToContactResponseDto).collect(Collectors.toList());
     }
