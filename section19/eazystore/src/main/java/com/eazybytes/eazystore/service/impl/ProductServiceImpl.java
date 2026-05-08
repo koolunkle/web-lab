@@ -22,7 +22,7 @@ public class ProductServiceImpl implements IProductService {
 
     private final ProductRepository productRepository;
 
-    @Cacheable("product")
+    @Cacheable("products")
     @Override
     public List<ProductDto> getProducts() {
         return productRepository.findAll()
