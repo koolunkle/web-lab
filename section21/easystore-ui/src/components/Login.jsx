@@ -34,7 +34,7 @@ export default function Login() {
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login failed.");
     }
-  }, [actionData, navigate, loginSuccess]);
+  }, [actionData, navigate, dispatch]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
@@ -42,7 +42,7 @@ export default function Login() {
     "w-full px-4 py-2 text-base border rounded-md transition border-primary dark:border-light focus:ring focus:ring-dark dark:focus:ring-lighter focus:outline-none text-gray-800 dark:text-lighter bg-white dark:bg-gray-600 placeholder-gray-400 dark:placeholder-gray-300";
 
   return (
-    <div className="min-h-[852px] flex items-center justify-center font-primary dark:bg-darkbg">
+    <div className="min-h-213 flex items-center justify-center font-primary dark:bg-darkbg">
       <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg max-w-md w-full px-8 py-6">
         {/* Title */}
         <PageTitle title="Login" />

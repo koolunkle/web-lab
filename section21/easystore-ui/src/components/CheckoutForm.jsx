@@ -150,11 +150,11 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div className="min-h-[852px] flex items-center justify-center font-primary dark:bg-darkbg">
+    <div className="min-h-213 flex items-center justify-center font-primary dark:bg-darkbg">
       <div
         className={
           isProcessing
-            ? "visible  flex flex-col justify-center items-center my-[200px] "
+            ? "visible  flex flex-col justify-center items-center my-50"
             : "hidden"
         }
       >

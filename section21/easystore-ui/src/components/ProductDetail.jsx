@@ -50,7 +50,7 @@ export default function ProductDetail() {
   const handleViewCart = () => navigate("/cart");
 
   return (
-    <div className="min-h-[852px] flex items-center justify-center px-6 py-8 font-primary bg-normalbg dark:bg-darkbg">
+    <div className="min-h-213 flex items-center justify-center px-6 py-8 font-primary bg-normalbg dark:bg-darkbg">
       <div className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:space-x-8 px-6 p-8">
         {/* Product Image with Zoom Effect */}
         <div
