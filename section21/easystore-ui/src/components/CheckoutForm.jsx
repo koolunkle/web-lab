@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiClient from "../api/api-client";
-import { useAuth } from "../store/auth-context";
+import { selectUser } from "../store/auth-slice";
 import {
   clearCart,
   selectCartItems,
@@ -24,7 +24,9 @@ export default function CheckoutForm() {
   const cart = useSelector(selectCartItems);
   const totalPrice = useSelector(selectTotalPrice);
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const user = useSelector(selectUser);
+
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();

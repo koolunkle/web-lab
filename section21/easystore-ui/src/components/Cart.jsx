@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import emptyCartImage from "../assets/util/emptycart.png";
-import { useAuth } from "../store/auth-context";
+import { selectIsAuthenticated, selectUser } from "../store/auth-slice";
 import { selectCartItems } from "../store/cart-slice";
 import CartTable from "./CartTable";
 import PageTitle from "./PageTitle";
@@ -10,7 +10,10 @@ import PageTitle from "./PageTitle";
 export default function Cart() {
   // const { cart } = useCart();
   const cart = useSelector(selectCartItems);
-  const { isAuthenticated, user } = useAuth();
+
+  // const { isAuthenticated, user } = useAuth();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
 
   // Memoize the cart length check to prevent re-renders
   const isCartEmpty = useMemo(() => cart.length === 0, [cart.length]);

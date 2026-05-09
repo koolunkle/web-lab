@@ -41,7 +41,6 @@ import ProductDetail from "./components/ProductDetail.jsx";
 import Profile from "./components/Profile.jsx";
 import Register from "./components/Register.jsx";
 import "./index.css";
-import { AuthProvider } from "./store/auth-provider.jsx";
 import store from "./store/store.js";
 
 const stripePromise = loadStripe(
@@ -110,14 +109,9 @@ const appRouter = createBrowserRouter(routeDefinitions);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Elements stripe={stripePromise}>
-      <AuthProvider>
-        {/* <CartProvider>
-          <RouterProvider router={appRouter} />
-        </CartProvider> */}
-        <Provider store={store}>
-          <RouterProvider router={appRouter} />
-        </Provider>
-      </AuthProvider>
+      <Provider store={store}>
+        <RouterProvider router={appRouter} />
+      </Provider>
       <ToastContainer
         position="top-center"
         autoClose={3000}

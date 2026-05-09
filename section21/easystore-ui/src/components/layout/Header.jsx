@@ -7,10 +7,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../../store/auth-context";
+import {
+  logout,
+  selectIsAuthenticated,
+  selectUser,
+} from "../../store/auth-slice";
 import { selectTotalQuantity } from "../../store/cart-slice";
 
 export default function Header() {
@@ -36,7 +40,11 @@ export default function Header() {
 
   // const { totalQuantity } = useCart();
   const totalQuantity = useSelector(selectTotalQuantity);
-  const { isAuthenticated, logout, user } = useAuth();
+
+  // const { isAuthenticated, logout, user } = useAuth();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
   const isAdmin = user?.roles?.includes("ROLE_ADMIN");
 
   useEffect(() => {
@@ -74,7 +82,7 @@ export default function Header() {
     event.preventDefault();
     setUserMenuOpen(false);
     setAdminMenuOpen(false);
-    logout();
+    dispatch(logout());
     navigate("/home", { replace: true });
     toast.success("Logged out successfully!");
   };

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Form,
   Link,
@@ -8,7 +9,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../store/auth-context";
+import { loginSuccess } from "../store/auth-slice";
 import PageTitle from "./PageTitle";
 
 export default function Login() {
@@ -17,13 +18,16 @@ export default function Login() {
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginSuccess } = useAuth();
-
   const from = location.state?.from || "/home";
+
+  // const { loginSuccess } = useAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (actionData?.success) {
-      loginSuccess(actionData.jwtToken, actionData.user);
+      dispatch(
+        loginSuccess({ jwtToken: actionData.jwtToken, user: actionData.user }),
+      );
       setTimeout(() => {
         navigate(actionData.from || "/home", { replace: true });
       }, 100);

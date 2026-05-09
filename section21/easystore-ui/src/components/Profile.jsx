@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Form,
   useActionData,
@@ -7,7 +8,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../store/auth-context";
+import { loginSuccess, selectUser } from "./../store/auth-slice";
 import PageTitle from "./PageTitle";
 
 export default function Profile() {
@@ -17,8 +18,11 @@ export default function Profile() {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  const { user, loginSuccess } = useAuth();
   const lastProcessedAction = useRef(null);
+
+  // const { user, loginSuccess } = useAuth();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const [profileData, setProfileData] = useState(initialProfileData);
   const [prevActionData, setPrevActionData] = useState(actionData);
@@ -53,14 +57,19 @@ export default function Profile() {
             };
 
             // Update in context
-            loginSuccess(localStorage.getItem("jwtToken"), updatedUser);
+            dispatch(
+              loginSuccess({
+                jwt: localStorage.getItem("jwtToken"),
+                user: updatedUser,
+              }),
+            );
           }
         }
       } else if (actionData.errors) {
         lastProcessedAction.current = actionData;
       }
     }
-  }, [actionData, navigate, user, loginSuccess]);
+  }, [actionData, navigate, user, dispatch]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";
