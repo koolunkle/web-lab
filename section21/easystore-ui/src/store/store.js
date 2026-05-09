@@ -1,33 +1,40 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import authReducer from "./auth-slice";
 import cartReducer from "./cart-slice";
 
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["cart", "auth"],
+};
+
+const rootReducer = combineReducers({
+  cart: cartReducer,
+  auth: authReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: {
-    cart: cartReducer,
-    auth: authReducer,
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-store.subscribe(() => {
-  try {
-    // Cart persistence
-    const cart = store.getState().cart;
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    // Auth persistence
-    const authState = store.getState().auth;
-    
-    if (authState.isAuthenticated) {
-      localStorage.setItem("jwtToken", authState.jwtToken);
-      localStorage.setItem("user", JSON.stringify(authState.user));
-    } else {
-      localStorage.removeItem("jwtToken");
-      localStorage.removeItem("user");
-    }
-  } catch (error) {
-    console.error("Failed to save state to localStorage", error);
-  }
-});
-
+export const persistor = persistStore(store);
 export default store;

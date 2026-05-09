@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { PersistGate } from "redux-persist/integration/react";
 import { adminMessagesLoader } from "./api/admin-messages-loader.js";
 import { adminOrdersLoader } from "./api/admin-orders-loader.js";
 import { contactAction } from "./api/contact-action.js";
@@ -41,7 +42,7 @@ import ProductDetail from "./components/ProductDetail.jsx";
 import Profile from "./components/Profile.jsx";
 import Register from "./components/Register.jsx";
 import "./index.css";
-import store from "./store/store.js";
+import store, { persistor } from "./store/store.js";
 
 const stripePromise = loadStripe(
   "pk_test_51TThULJ6lFKdCkWimZSR7tX69JBMJ3erRhJgMmmUfH0MoCO5v0kV9RnyzUiBOC6I8cpTlxm1rJNppkhqXmJwXEJN00C4fzC6Cy",
@@ -110,7 +111,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Elements stripe={stripePromise}>
       <Provider store={store}>
-        <RouterProvider router={appRouter} />
+        <PersistGate loading={null} persistor={persistor}>
+          <RouterProvider router={appRouter} />
+        </PersistGate>
       </Provider>
       <ToastContainer
         position="top-center"
