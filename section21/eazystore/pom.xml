@@ -13,6 +13,7 @@
 	<artifactId>eazystore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eazystore</name>
+	<packaging>jar</packaging>
 	<description>Backend Project for Eazy Store E-commerce application</description>
 	<url />
 	<licenses>
