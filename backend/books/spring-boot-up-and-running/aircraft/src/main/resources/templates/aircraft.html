@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Position Report</title>
+    <script th:src="@{/js/aircraft.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="aircraft-list" th:unless="${#lists.isEmpty(currentAircraft)}">
+    <h2>Current Aircraft Positions</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Call Sign</th>
+            <th>Squawk</th>
+            <th>AC Reg</th>
+            <th>Flight #</th>
+            <th>Route</th>
+            <th>AC Type</th>
+            <th>Altitude</th>
+            <th>Heading</th>
+            <th>Speed</th>
+            <th>Vert Rate</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Last Seen</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ac : ${currentAircraft}" th:object="${ac}">
+            <td th:text="*{callsign}"></td>
+            <td th:text="*{squawk}"></td>
+            <td th:text="*{reg}"></td>
+            <td th:text="*{flightno}"></td>
+            <td th:text="*{route}"></td>
+            <td th:text="*{type}"></td>
+            <td th:text="*{altitude}"></td>
+            <td th:text="*{heading}"></td>
+            <td th:text="*{speed}"></td>
+            <td th:text="*{vertRate}"></td>
+            <td th:text="*{lat}"></td>
+            <td th:text="*{lon}"></td>
+            <td th:text="*{lastSeenTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

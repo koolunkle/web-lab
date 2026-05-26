@@ -1,0 +1,26 @@
+[
+  {
+    "callsign": "AAL608",
+    "squawk": "1451",
+    "reg": "N754UW",
+    "flightno": "AA608",
+    "route": "IND-PHX",
+    "type": "A319",
+    "category": "A3",
+    "altitude": 36000,
+    "heading": 255,
+    "speed": 423,
+    "vert_rate": 0,
+    "selected_altitude": 36000,
+    "lat": 39.150284,
+    "lon": -90.684795,
+    "barometer": 1012.8,
+    "polar_distance": 26.575562,
+    "polar_bearing": 295.501994,
+    "is_adsb": true,
+    "is_on_ground": false,
+    "last_seen_time": "2026-05-20T12:00:00.35Z",
+    "pos_update_time": "2026-05-20T12:00:34Z",
+    "bds40_seen_time": "2026-05-20T12:00:27Z"
+  }
+]

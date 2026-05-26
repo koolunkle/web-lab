@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: aircraft
+
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://localhost:3306/study}
+    username: root
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+
+  sql:
+    init:
+      platform: mariadb
+      mode: never # always, embedded
+
+  jpa:
+    hibernate:
+      ddl-auto: create # none, update, create, create-drop
+  #    properties:
+  #      hibernate:
+  #        format_sql: true
+
+  cloud:
+    function:
+      definition: retrieveAircraftPositions
+    stream:
+      bindings:
+        retrieveAircraftPositions-in-0:
+          destination: aircraftpositions
+          group: aircraftpositions
+          binder: rabbit
+#      binders:
+#        rabbit:
+#          type: rabbit
+#        kafka:
+#          type: kafka
+
+external:
+  url: ${EXTERNAL_URL:http://localhost:7634}
+
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.orm.jdbc.bind: trace
