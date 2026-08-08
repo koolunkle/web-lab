@@ -27,9 +27,13 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation(libs.jjwt.api)
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+	runtimeOnly(libs.jjwt.impl)
+	runtimeOnly(libs.jjwt.jackson)
 
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
