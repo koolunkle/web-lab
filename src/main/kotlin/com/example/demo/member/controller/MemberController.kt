@@ -2,11 +2,13 @@ package com.example.demo.member.controller
 
 import com.example.demo.common.authority.TokenInfo
 import com.example.demo.common.dto.BaseResponse
+import com.example.demo.common.dto.CustomUser
 import com.example.demo.member.dto.LoginDto
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.dto.MemberDtoResponse
 import com.example.demo.member.service.MemberService
 import jakarta.validation.Valid
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/member")
@@ -28,9 +30,10 @@ class MemberController(private val memberService: MemberService) {
     }
 
     // 내 정보 조회
-    @GetMapping("/info/{id}")
-    fun searchMyInfo(@PathVariable id: Long): BaseResponse<MemberDtoResponse> {
-        val response = memberService.searchMyInfo(id)
+    @GetMapping("/info")
+    fun searchMyInfo(): BaseResponse<MemberDtoResponse> {
+        val userId = (SecurityContextHolder.getContext().authentication?.principal as CustomUser).userId
+        val response = memberService.searchMyInfo(userId)
         return BaseResponse(data = response)
     }
 }
