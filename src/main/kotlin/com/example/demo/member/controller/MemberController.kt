@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class MemberController(private val memberService: MemberService) {
 
     // 회원가입
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     fun signUp(@RequestBody @Valid memberDtoRequest: MemberDtoRequest): String {
         return memberService.signUp(memberDtoRequest)
     }
