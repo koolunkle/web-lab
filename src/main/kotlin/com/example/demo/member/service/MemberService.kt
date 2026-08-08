@@ -1,5 +1,6 @@
 package com.example.demo.member.service
 
+import com.example.demo.common.exception.InvalidInputException
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.entity.Member
 import com.example.demo.member.repository.MemberRepository
@@ -11,22 +12,14 @@ import org.springframework.stereotype.Service
 class MemberService(private val memberRepository: MemberRepository) {
 
     // 회원가입
-    fun signUp(memberDtoRequest : MemberDtoRequest) : String {
+    fun signUp(memberDtoRequest: MemberDtoRequest): String {
         // 아이디 중복 검사
-        var member : Member? = memberRepository.findByLoginId(memberDtoRequest.loginId)
-        if(member != null) {
-            return "이미 등록된 아이디 입니다."
+        var member: Member? = memberRepository.findByLoginId(memberDtoRequest.loginId)
+        if (member != null) {
+            throw InvalidInputException("loginId", "이미 등록된 아이디 입니다.")
         }
 
-        member = Member(
-            null,
-            memberDtoRequest.loginId,
-            memberDtoRequest.password,
-            memberDtoRequest.name,
-            memberDtoRequest.birthDate,
-            memberDtoRequest.gender,
-            memberDtoRequest.email,
-        )
+        member = memberDtoRequest.toEntity()
 
         memberRepository.save(member)
 
