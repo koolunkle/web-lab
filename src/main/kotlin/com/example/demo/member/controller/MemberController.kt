@@ -7,6 +7,7 @@ import com.example.demo.member.dto.LoginDto
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.dto.MemberDtoResponse
 import com.example.demo.member.dto.MemberUpdateRequest
+import com.example.demo.member.dto.RefreshTokenRequest
 import com.example.demo.member.service.MemberService
 import jakarta.validation.Valid
 import org.springframework.security.core.context.SecurityContextHolder
@@ -32,8 +33,8 @@ class MemberController(private val memberService: MemberService) {
 
     // Refresh Token으로 새 토큰 재발급
     @PostMapping("/refresh")
-    fun refresh(@RequestHeader("Refresh-Token") refreshToken: String): BaseResponse<TokenInfo> {
-        val tokenInfo = memberService.reissue(refreshToken)
+    fun refresh(@RequestBody @Valid refreshTokenRequest: RefreshTokenRequest): BaseResponse<TokenInfo> {
+        val tokenInfo = memberService.reissue(refreshTokenRequest.refreshToken)
         return BaseResponse(data = tokenInfo)
     }
 

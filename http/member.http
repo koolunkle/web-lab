@@ -30,7 +30,11 @@ Content-Type: {{contentType}}
 
 ### [토큰 갱신] Refresh Token을 통한 Access Token 재발급
 POST {{baseUrl}}/refresh
-Refresh-Token: {{refreshToken}}
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
 
 ### [내 정보 조회] 현재 로그인된 사용자 정보 확인
 GET {{baseUrl}}/info

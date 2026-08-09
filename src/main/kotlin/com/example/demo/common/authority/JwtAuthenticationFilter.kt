@@ -1,6 +1,7 @@
 package com.example.demo.common.authority
 
 import com.example.demo.common.status.TokenValidationResult
+import com.example.demo.member.repository.RefreshTokenRepository
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
@@ -10,7 +11,8 @@ import org.springframework.util.StringUtils
 import org.springframework.web.filter.GenericFilterBean
 
 class JwtAuthenticationFilter(
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val refreshTokenRepository: RefreshTokenRepository
 ) : GenericFilterBean() {
 
     override fun doFilter(
@@ -20,8 +22,11 @@ class JwtAuthenticationFilter(
     ) {
         val token = resolveToken(request as HttpServletRequest)
         if (token != null && jwtTokenProvider.validateToken(token) == TokenValidationResult.VALID) {
-            val authentication = jwtTokenProvider.getAuthentication(token)
-            SecurityContextHolder.getContext().authentication = authentication
+            val userId = jwtTokenProvider.getUserIdFromToken(token)
+            if (refreshTokenRepository.existsById(userId)) {
+                val authentication = jwtTokenProvider.getAuthentication(token)
+                SecurityContextHolder.getContext().authentication = authentication
+            }
         }
         chain?.doFilter(request, response)
     }
