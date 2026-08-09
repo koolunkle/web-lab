@@ -13,3 +13,9 @@ enum class ResultCode(val msg: String) {
 enum class Role {
     MEMBER
 }
+
+enum class TokenValidationResult {
+    VALID,    // 정상
+    EXPIRED,  // 만료 (refresh 흐름으로 진입)
+    INVALID,  // 서명/형식 오류 등 복구 불가
+}
