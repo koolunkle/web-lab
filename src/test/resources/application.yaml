@@ -11,6 +11,8 @@ spring:
     properties:
       hibernate:
         show_sql: false
+  flyway:
+    enabled: false
   h2:
     console:
       enabled: false

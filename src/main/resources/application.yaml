@@ -2,33 +2,47 @@ server:
   port: 8080
   servlet:
     context-path: /
+
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/study
-    username: root
-    password: 1234
+  profiles:
+    active: local
   jpa:
-    open-in-view: true
+    open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: false
         format_sql: true
         highlight_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
   servlet:
     encoding:
       charset: UTF-8
       enabled: true
       force: true
+
 logging:
   pattern:
-    console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+    console: "[%d{HH:mm:ss.SSS}][%-5level][%X{requestId}][%logger.%method:line%line] - %msg%n"
   level:
     org:
       hibernate:
         SQL: debug
         type.descriptor.sql: trace
+
 jwt:
   secret: ${JWT_SECRET:DadFufN4Oui8Bfv3ScFj6R9fyJ9hD45E6AGFsXgFsRhT4YSdSb}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: when-authorized
+  server:
+    port: 8080
