@@ -3,6 +3,7 @@ package com.example.demo.member.entity
 import com.example.demo.common.status.Gender
 import com.example.demo.common.status.Role
 import com.example.demo.member.dto.MemberDtoResponse
+import com.example.demo.member.dto.MemberUpdateRequest
 import jakarta.persistence.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -21,21 +22,28 @@ class Member(
     val password: String,
 
     @Column(nullable = false, length = 10)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false)
-    // @Temporal(TemporalType.DATE)
-    val birthDate: LocalDate,
+    var birthDate: LocalDate,
 
     @Column(nullable = false, length = 5)
     @Enumerated(EnumType.STRING)
-    val gender: Gender,
+    var gender: Gender,
 
     @Column(nullable = false, length = 30)
-    val email: String,
+    var email: String,
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: MutableList<MemberRole>? = null
+
+    // 수정 가능한 필드만 업데이트
+    fun update(request: MemberUpdateRequest) {
+        this.name = request.name
+        this.birthDate = request.birthDate
+        this.gender = request.gender
+        this.email = request.email
+    }
 
     private fun LocalDate.formatDate(): String =
         this.format(DateTimeFormatter.ofPattern("yyyyMMdd"))

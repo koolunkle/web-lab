@@ -7,11 +7,11 @@ import java.time.LocalDateTime
 
 @Entity
 class RefreshToken(
-    // PK: memberId — 회원당 1개 유지
+    // PK = memberId: 회원당 1개
     @Id
     val memberId: Long,
 
-    // SHA-256 해시값 저장
+    // SHA-256 해시 저장
     @Column(nullable = false, length = 64)
     var tokenHash: String,
 
