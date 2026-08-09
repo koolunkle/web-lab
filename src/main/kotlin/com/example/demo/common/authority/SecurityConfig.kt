@@ -22,7 +22,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/member/signup", "/api/member/login").anonymous()
+                it.requestMatchers("/api/member/signup", "/api/member/login", "/api/member/refresh").anonymous()
                     .requestMatchers("/api/member/**").hasRole("MEMBER")
                     .anyRequest().permitAll()
             }

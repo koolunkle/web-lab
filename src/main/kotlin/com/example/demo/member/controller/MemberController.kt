@@ -29,6 +29,13 @@ class MemberController(private val memberService: MemberService) {
         return BaseResponse(data = tokenInfo)
     }
 
+    // Refresh Token으로 새 토큰 재발급
+    @PostMapping("/refresh")
+    fun refresh(@RequestHeader("Refresh-Token") refreshToken: String): BaseResponse<TokenInfo> {
+        val tokenInfo = memberService.reissue(refreshToken)
+        return BaseResponse(data = tokenInfo)
+    }
+
     // 내 정보 조회
     @GetMapping("/info")
     fun searchMyInfo(): BaseResponse<MemberDtoResponse> {
