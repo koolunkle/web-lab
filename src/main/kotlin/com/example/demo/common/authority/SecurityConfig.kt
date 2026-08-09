@@ -1,5 +1,7 @@
 package com.example.demo.common.authority
 
+import com.example.demo.common.filter.MdcLoggingFilter
+import com.example.demo.common.filter.RateLimitFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -23,12 +25,21 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/member/signup", "/api/member/login", "/api/member/refresh").anonymous()
+                    .requestMatchers("/actuator/health").permitAll()
                     .requestMatchers("/api/member/**").hasRole("MEMBER")
                     .anyRequest().permitAll()
             }
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider),
                 UsernamePasswordAuthenticationFilter::class.java
+            )
+            .addFilterBefore(
+                RateLimitFilter(),
+                JwtAuthenticationFilter::class.java
+            )
+            .addFilterBefore(
+                MdcLoggingFilter(),
+                RateLimitFilter::class.java
             )
 
         return http.build()
