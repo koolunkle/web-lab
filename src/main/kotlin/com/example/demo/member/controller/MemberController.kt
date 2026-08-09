@@ -6,6 +6,7 @@ import com.example.demo.common.dto.CustomUser
 import com.example.demo.member.dto.LoginDto
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.dto.MemberDtoResponse
+import com.example.demo.member.dto.MemberUpdateRequest
 import com.example.demo.member.service.MemberService
 import jakarta.validation.Valid
 import org.springframework.security.core.context.SecurityContextHolder
@@ -36,6 +37,14 @@ class MemberController(private val memberService: MemberService) {
         return BaseResponse(data = tokenInfo)
     }
 
+    // 로그아웃
+    @PostMapping("/logout")
+    fun logout(): BaseResponse<Unit> {
+        val userId = (SecurityContextHolder.getContext().authentication?.principal as CustomUser).userId
+        memberService.logout(userId)
+        return BaseResponse(message = "로그아웃 되었습니다.")
+    }
+
     // 내 정보 조회
     @GetMapping("/info")
     fun searchMyInfo(): BaseResponse<MemberDtoResponse> {
@@ -46,10 +55,17 @@ class MemberController(private val memberService: MemberService) {
 
     // 내 정보 수정
     @PutMapping("/info")
-    fun saveMyInfo(@RequestBody @Valid memberDtoRequest: MemberDtoRequest): BaseResponse<Unit> {
+    fun saveMyInfo(@RequestBody @Valid request: MemberUpdateRequest): BaseResponse<Unit> {
         val userId = (SecurityContextHolder.getContext().authentication?.principal as CustomUser).userId
-        memberDtoRequest.id = userId
-        val resultMsg: String = memberService.saveMyInfo(memberDtoRequest)
+        val resultMsg = memberService.saveMyInfo(userId, request)
         return BaseResponse(message = resultMsg)
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/withdraw")
+    fun withdraw(): BaseResponse<Unit> {
+        val userId = (SecurityContextHolder.getContext().authentication?.principal as CustomUser).userId
+        memberService.withdraw(userId)
+        return BaseResponse(message = "회원 탈퇴가 완료되었습니다.")
     }
 }

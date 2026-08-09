@@ -9,6 +9,7 @@ import com.example.demo.common.status.TokenValidationResult
 import com.example.demo.member.dto.LoginDto
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.dto.MemberDtoResponse
+import com.example.demo.member.dto.MemberUpdateRequest
 import com.example.demo.member.entity.Member
 import com.example.demo.member.entity.MemberRole
 import com.example.demo.member.entity.RefreshToken
@@ -63,7 +64,7 @@ class MemberService(
         val memberId = memberRepository.findByLoginId(loginDto.loginId)?.id
             ?: throw InvalidInputException("loginId", "사용자를 찾을 수 없습니다.")
 
-        // memberId PK로 upsert — 회원 1명당 1개 유지
+        // memberId PK로 upsert
         val tokenHash = jwtTokenProvider.hashToken(tokenInfo.refreshToken)
         val expiresAt = LocalDateTime.now().plusDays(7)
 
@@ -90,19 +91,21 @@ class MemberService(
             throw InvalidInputException("refreshToken", "만료된 Refresh Token입니다. 다시 로그인해주세요.")
         }
 
-        // DB 해시 비교 및 만료 시각 검증
+        // DB 해시/만료 시각 검증
         val memberId = jwtTokenProvider.getUserIdFromToken(refreshTokenValue)
         val stored = refreshTokenRepository.findByIdOrNull(memberId)
             ?: throw InvalidInputException("refreshToken", "Refresh Token이 존재하지 않습니다. 다시 로그인해주세요.")
 
         if (stored.tokenHash != jwtTokenProvider.hashToken(refreshTokenValue)) {
-            throw InvalidInputException("refreshToken", "Refresh Token이 일치하지 않습니다.")
+            // 해시 불일치: 탈취 후 재사용으로 간주, 저장된 토큰 삭제로 세션 전체 무효화
+            refreshTokenRepository.delete(stored)
+            throw InvalidInputException("refreshToken", "Refresh Token이 유효하지 않습니다. 보안을 위해 다시 로그인해주세요.")
         }
         if (stored.expiresAt.isBefore(LocalDateTime.now())) {
             throw InvalidInputException("refreshToken", "만료된 Refresh Token입니다. 다시 로그인해주세요.")
         }
 
-        // 비밀번호 재검증 없이 회원 정보로 Authentication 구성
+        // 비밀번호 재검증 없이 저장된 회원 정보로 Authentication 구성
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw InvalidInputException("id", "존재하지 않는 사용자입니다.")
         val memberRoles = member.memberRole
@@ -120,6 +123,12 @@ class MemberService(
         return newTokenInfo
     }
 
+    // 로그아웃: DB에서 RefreshToken 삭제
+    @Transactional
+    fun logout(memberId: Long) {
+        refreshTokenRepository.deleteById(memberId)
+    }
+
     // 내 정보 조회
     fun searchMyInfo(id: Long): MemberDtoResponse {
         val member: Member =
@@ -128,16 +137,22 @@ class MemberService(
         return member.toDto()
     }
 
-    // 내 정보 수정
+    // 내 정보 수정 — loginId·password를 제외한 필드만 수정 가능
     @Transactional
-    fun saveMyInfo(memberDtoRequest: MemberDtoRequest): String {
-        val id = memberDtoRequest.id
-            ?: throw InvalidInputException("id", "회원 ID가 필요합니다.")
-        memberRepository.findByIdOrNull(id)
+    fun saveMyInfo(id: Long, request: MemberUpdateRequest): String {
+        val member = memberRepository.findByIdOrNull(id)
             ?: throw InvalidInputException("id", "회원번호(${id})가 존재하지 않는 사용자입니다.")
-        val encodedPassword = passwordEncoder.encode(memberDtoRequest.password)!!
-        val member: Member = memberDtoRequest.toEntity(encodedPassword)
-        memberRepository.save(member)
+        member.update(request)
         return "수정 완료되었습니다."
+    }
+
+    // 회원 탈퇴: RefreshToken 선삭제 후 MemberRole, Member 순으로 삭제
+    @Transactional
+    fun withdraw(id: Long) {
+        val member = memberRepository.findByIdOrNull(id)
+            ?: throw InvalidInputException("id", "회원번호(${id})가 존재하지 않는 사용자입니다.")
+        refreshTokenRepository.deleteById(id)
+        memberRoleRepository.deleteAll(member.memberRole ?: emptyList())
+        memberRepository.delete(member)
     }
 }
