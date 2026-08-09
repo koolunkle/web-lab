@@ -1,5 +1,6 @@
 package com.example.demo.common.authority
 
+import com.example.demo.common.status.TokenValidationResult
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
@@ -18,7 +19,7 @@ class JwtAuthenticationFilter(
         chain: FilterChain?
     ) {
         val token = resolveToken(request as HttpServletRequest)
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (token != null && jwtTokenProvider.validateToken(token) == TokenValidationResult.VALID) {
             val authentication = jwtTokenProvider.getAuthentication(token)
             SecurityContextHolder.getContext().authentication = authentication
         }
@@ -28,7 +29,7 @@ class JwtAuthenticationFilter(
     private fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader("Authorization")
 
-        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             bearerToken.substring(7)
         } else {
             null
