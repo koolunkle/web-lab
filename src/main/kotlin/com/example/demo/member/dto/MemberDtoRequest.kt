@@ -63,11 +63,11 @@ data class MemberDtoRequest(
     private fun String.toLocalDate(): LocalDate =
         LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-    fun toEntity(): Member =
+    fun toEntity(encodedPassword: String): Member =
         Member(
             id = id,
             loginId = loginId,
-            password = password,
+            password = encodedPassword,
             name = name,
             birthDate = birthDate,
             gender = gender,
