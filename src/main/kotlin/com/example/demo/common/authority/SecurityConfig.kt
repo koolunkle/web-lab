@@ -17,7 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -30,6 +31,9 @@ class SecurityConfig(
                     .requestMatchers("/actuator/health").permitAll()
                     .requestMatchers("/api/member/**").hasRole("MEMBER")
                     .anyRequest().permitAll()
+            }
+            .exceptionHandling {
+                it.authenticationEntryPoint(customAuthenticationEntryPoint)
             }
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider, refreshTokenRepository),

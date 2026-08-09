@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null,
+    val id: Long? = null,
 
     @Column(nullable = false, length = 30, updatable = false)
     val loginId: String,

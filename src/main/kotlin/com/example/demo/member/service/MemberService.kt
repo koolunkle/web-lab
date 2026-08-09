@@ -61,8 +61,9 @@ class MemberService(
 
         val tokenInfo = jwtTokenProvider.createToken(authentication)
 
-        val memberId = memberRepository.findByLoginId(loginDto.loginId)?.id
+        val member = memberRepository.findByLoginId(loginDto.loginId)
             ?: throw InvalidInputException("loginId", "사용자를 찾을 수 없습니다.")
+        val memberId = member.id ?: throw InvalidInputException("id", "회원번호가 존재하지 않습니다.")
 
         // memberId PK로 upsert
         val tokenHash = jwtTokenProvider.hashToken(tokenInfo.refreshToken)

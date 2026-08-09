@@ -33,14 +33,12 @@ data class MemberUpdateRequest(
     private val _email: String?,
 ) {
     val name: String
-        get() = _name!!
+        get() = _name ?: ""
     val birthDate: LocalDate
-        get() = _birthDate!!.toLocalDate()
+        get() = _birthDate?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd")) }
+            ?: LocalDate.now()
     val gender: Gender
-        get() = Gender.valueOf(_gender!!)
+        get() = _gender?.let { Gender.valueOf(it) } ?: Gender.MAN
     val email: String
-        get() = _email!!
-
-    private fun String.toLocalDate(): LocalDate =
-        LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        get() = _email ?: ""
 }
