@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Common Fragments</title>
+</head>
+<body>
+
+<header th:fragment="header(pageTitle)">
+    <nav style="background-color: #f8f9fa; padding: 10px;">
+        <h1 th:text="${pageTitle}">기본 타이틀</h1>
+        <hr>
+    </nav>
+</header>
+
+<footer th:fragment="footer">
+    <div style="text-align: center; margin-top: 20px; color: gray;">
+        <p>&copy; 2026 Company. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

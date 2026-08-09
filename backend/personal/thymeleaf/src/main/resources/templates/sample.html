@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">타이틀</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/common :: header('사용자 관리 대시보드')}"></div>
+
+<main style="padding: 20px;">
+
+    <!-- Variable Output -->
+    <h2>환영합니다, <span th:text="${loginUser.name}">사용자</span>님!</h2>
+
+    <!-- Conditional Branching (if / unless) -->
+    <div th:if="${loginUser.role == 'ADMIN'}">
+        <p style="color: green;">관리자 권한으로 접속하셨습니다.</p>
+    </div>
+    <div th:unless="${loginUser.role == 'ADMIN'}">
+        <p>일반 사용자 화면입니다.</p>
+    </div>
+
+    <!-- Elvis Operator (Default Value) -->
+    <p>닉네임: <span th:text="${nickname} ?: '손님'">익명</span></p>
+
+    <!-- Iteration (th:each) -->
+    <h3>회원 목록</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>ID</th>
+            <th>이름</th>
+            <th>권한</th>
+            <th>상태</th>
+            <th>상세보기</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, stat : ${users}">
+            <td th:text="${stat.count}">1</td>
+            <td th:text="${user.id}">100</td>
+            <!-- Dynamic CSS Class Application -->
+            <td th:text="${user.name}"
+                th:classappend="${user.active} ? 'active-user' : 'inactive-user'">이름
+            </td>
+            <td th:text="${user.role}">USER</td>
+            <td>
+                <!-- Ternary Operator -->
+                <span th:text="${user.active} ? '활성' : '차단'">상태</span>
+            </td>
+            <td>
+                <!-- URL Link Expression -->
+                <a th:href="@{/users/{id}(id=${user.id})}">조회</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Empty List Handling -->
+    <div th:if="${#lists.isEmpty(emptyList)}">
+        <p style="color: gray; margin-top: 15px;">등록된 데이터가 없습니다.</p>
+    </div>
+
+</main>
+
+<!-- Footer Fragment -->
+<div th:insert="~{fragments/common :: footer}"></div>
+
+</body>
+</html>
