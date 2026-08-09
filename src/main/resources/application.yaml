@@ -31,4 +31,4 @@ logging:
         SQL: debug
         type.descriptor.sql: trace
 jwt:
-  secret: DadFufN4Oui8Bfv3ScFj6R9fyJ9hD45E6AGFsXgFsRhT4YSdSb
+  secret: ${JWT_SECRET:DadFufN4Oui8Bfv3ScFj6R9fyJ9hD45E6AGFsXgFsRhT4YSdSb}
