@@ -1,0 +1,63 @@
+@baseUrl = http://localhost:8080/api/member
+@contentType = application/json
+
+### [회원가입] 신규 사용자 등록
+POST {{baseUrl}}/signup
+Content-Type: {{contentType}}
+
+{
+  "loginId": "testuser",
+  "password": "password123!",
+  "name": "홍길동",
+  "birthDate": "1996-05-09",
+  "gender": "MAN",
+  "email": "test@example.com"
+}
+
+### [로그인] 인증 토큰 발급 및 저장
+# @name loginRequest
+POST {{baseUrl}}/login
+Content-Type: {{contentType}}
+
+{
+  "loginId": "testuser",
+  "password": "password123!"
+}
+
+### 토큰 변수 바인딩
+@accessToken = {{loginRequest.response.body.data.accessToken}}
+@refreshToken = {{loginRequest.response.body.data.refreshToken}}
+
+### [토큰 갱신] Refresh Token을 통한 Access Token 재발급
+POST {{baseUrl}}/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### [내 정보 조회] 현재 로그인된 사용자 정보 확인
+GET {{baseUrl}}/info
+Authorization: Bearer {{accessToken}}
+
+### [내 정보 수정] 사용자 정보 변경
+PUT {{baseUrl}}/info
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "loginId": "testuser",
+  "password": "password123!",
+  "name": "고길동",
+  "birthDate": "1996-05-09",
+  "gender": "MAN",
+  "email": "gildong@example.com"
+}
+
+### [로그아웃] 세션 및 토큰 무효화 처리
+POST {{baseUrl}}/logout
+Authorization: Bearer {{accessToken}}
+
+### [회원 탈퇴] 사용자 계정 삭제
+DELETE {{baseUrl}}/withdraw
+Authorization: Bearer {{accessToken}}

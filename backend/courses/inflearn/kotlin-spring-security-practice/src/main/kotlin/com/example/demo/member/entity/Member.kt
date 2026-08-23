@@ -1,0 +1,68 @@
+package com.example.demo.member.entity
+
+import com.example.demo.common.status.Gender
+import com.example.demo.common.status.Role
+import com.example.demo.member.dto.MemberDtoResponse
+import com.example.demo.member.dto.MemberUpdateRequest
+import jakarta.persistence.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+@Entity
+@Table(uniqueConstraints = [UniqueConstraint(name = "uk_member_login_id", columnNames = ["loginId"])])
+class Member(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    val id: Long? = null,
+
+    @Column(nullable = false, length = 30, updatable = false)
+    val loginId: String,
+
+    @Column(nullable = false, length = 100)
+    val password: String,
+
+    @Column(nullable = false, length = 10)
+    var name: String,
+
+    @Column(nullable = false)
+    var birthDate: LocalDate,
+
+    @Column(nullable = false, length = 5)
+    @Enumerated(EnumType.STRING)
+    var gender: Gender,
+
+    @Column(nullable = false, length = 30)
+    var email: String,
+) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    val memberRole: MutableList<MemberRole>? = null
+
+    // 수정 가능한 필드만 업데이트
+    fun update(request: MemberUpdateRequest) {
+        this.name = request.name
+        this.birthDate = request.birthDate
+        this.gender = request.gender
+        this.email = request.email
+    }
+
+    private fun LocalDate.formatDate(): String =
+        this.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+
+    fun toDto(): MemberDtoResponse =
+        MemberDtoResponse(id!!, loginId, name, birthDate.formatDate(), gender.desc, email)
+}
+
+@Entity
+class MemberRole(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null,
+
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    val role: Role,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_member_role_member_id"))
+    val member: Member,
+)
