@@ -1,11 +1,11 @@
-# ktor-server-study
+# Ktor Todo API Example
 
 [Ktor](https://ktor.io/)로 만든 간단한 Todo CRUD API 예제 프로젝트입니다. 메모리 저장소, OpenAPI(Swagger) 문서 자동 생성, `.http` 요청 예제까지 포함한 최소 구성으로 Ktor 서버 개발 흐름을 익히기 위해 만들었습니다.
 
 ## 기술 스택
 
 | 구분 | 내용 |
-|---|---|
+| --- | --- |
 | 언어 | Kotlin 2.4.10 |
 | 런타임 | Java 17 |
 | 프레임워크 | Ktor 3.5.2 (Netty 엔진) |
@@ -16,7 +16,7 @@
 
 ## 프로젝트 구조
 
-```
+```text
 src/main/kotlin/com/example/
   Application.kt              # 엔트리 포인트 (EngineMain), 모듈 조립
   plugins/
@@ -58,7 +58,7 @@ http/
 메모리에 저장되는 간단한 Todo 리소스에 대한 CRUD API입니다.
 
 | Method | Path | 설명 |
-|---|---|---|
+| --- | --- | --- |
 | GET | `/todos` | Todo 목록 조회 |
 | GET | `/todos/{id}` | Todo 단건 조회 |
 | POST | `/todos` | Todo 생성 |
