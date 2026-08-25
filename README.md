@@ -5,6 +5,7 @@
 ## Repository Structure
 
 * **frontend/** : Client-side projects developed with React, focusing on UI/UX and state management.
+  * **[ecomm-ui](./frontend/modern-api-dev-with-spring/ecomm-ui)/** : React e-commerce storefront UI from the *Modern API Development with Spring* book, covering auth, cart, and order/product browsing against the Spring Boot backend.
 * **backend/** : Server-side logic and API development using Spring Boot, Ktor, and Kotlin/Java-based architectures.
   * **[kotlin-spring-api-practice](./backend/courses/inflearn/kotlin-spring-api-practice)/** : Kotlin/Spring Boot REST API practice project integrating the Kakao Blog Search API.
   * **[kotlin-spring-security-practice](./backend/courses/inflearn/kotlin-spring-security-practice)/** : Kotlin/Spring Security practice project covering JWT-based authentication and authorization.
