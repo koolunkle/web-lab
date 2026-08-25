@@ -6,8 +6,10 @@
 
 * **frontend/** : Client-side projects developed with React, focusing on UI/UX and state management.
 * **backend/** : Server-side logic and API development using Spring Boot and Java-based architectures.
+  * **[kotlin-spring-api-practice](./backend/courses/inflearn/kotlin-spring-api-practice)/** : Kotlin/Spring Boot REST API practice project integrating the Kakao Blog Search API.
   * **[kotlin-spring-security-practice](./backend/courses/inflearn/kotlin-spring-security-practice)/** : Kotlin/Spring Security practice project covering JWT-based authentication and authorization.
 * **integrated/** : Full-stack applications combining React frontend and Spring Boot backend systems.
+  * **[full-stack-react-spring-boot](./integrated/courses/udemy/full-stack-react-spring-boot)/** : Full-stack e-commerce application built across a 21-section React and Spring Boot course.
 
 ## Tech Stack
 
