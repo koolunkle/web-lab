@@ -29,16 +29,25 @@ spring:
     function:
       definition: retrieveAircraftPositions
     stream:
+      binders:
+        rabbit:
+          type: rabbit
+        kafka:
+          type: kafka
       bindings:
         retrieveAircraftPositions-in-0:
           destination: aircraftpositions
           group: aircraftpositions
-          binder: rabbit
-#      binders:
-#        rabbit:
-#          type: rabbit
-#        kafka:
-#          type: kafka
+          # active binder is chosen per profile: see application-rabbit.yaml / application-kafka.yaml
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 external:
   url: ${EXTERNAL_URL:http://localhost:7634}

@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        retrieveAircraftPositions-in-0:
+          binder: kafka
