@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "ecomm.logging.logstash.destination",
+      "type": "java.lang.String",
+      "description": "Logstash TCP 어펜더(STASH)가 로그를 전송할 목적지(host:port). logback-spring.xml의 springProperty로만 참조되며 Java 클래스에는 바인딩되지 않음.",
+      "defaultValue": "localhost:5002"
+    }
+  ]
+}

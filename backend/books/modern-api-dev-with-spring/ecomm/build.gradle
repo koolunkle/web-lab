@@ -1,0 +1,194 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.openapi.generator' version '7.16.0'
+	id 'jacoco'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.8"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Web: 서블릿 기반 MVC 웹 요청 처리 및 유효성 검증
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc' // Servlet/Tomcat 기반 웹 계층
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // Request 유효성 검증
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas' // REST HATEOAS 지원
+
+	// OpenAPI: Swagger/OpenAPI 연동
+	implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.25' // Swagger 어노테이션
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.3' // OpenAPI Nullable 필드 처리 (런타임에도 필요)
+
+	// Persistence: 데이터베이스 및 마이그레이션
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 데이터 접근
+	implementation 'org.springframework.boot:spring-boot-flyway' // Flyway 부트 연동
+	implementation 'org.flywaydb:flyway-core' // DB 스키마 마이그레이션
+	implementation 'org.springframework.boot:spring-boot-h2console' // H2 웹 콘솔
+	runtimeOnly 'com.h2database:h2' // H2 JDBC 드라이버 (인메모리 DB)
+
+	// Tracing: 분산 트레이싱 (Micrometer + Brave, 로그의 traceId/spanId 연동)
+	implementation 'org.springframework.boot:spring-boot-micrometer-tracing-brave' // Micrometer-Brave 연동
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave' // traceId/spanId 로깅 브리지
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave' // Brave 스팬을 Zipkin 서버로 전송하는 리포터
+	implementation 'org.springframework.boot:spring-boot-zipkin' // Zipkin 엔드포인트/Sender 자동구성
+
+	// Metrics: Prometheus 메트릭 노출 (액추에이터의 /actuator/prometheus 엔드포인트 활성화)
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	// Logging: ELK 스택 연동 (로그를 JSON으로 인코딩하여 Logstash로 TCP 전송)
+	implementation 'net.logstash.logback:logstash-logback-encoder:7.3' // Logback -> Logstash TCP Appender/JSON 인코더
+
+	// Lombok: 코드 자동 생성
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// MapStruct: DTO-Entity 객체 매핑
+	implementation 'org.mapstruct:mapstruct:1.6.3' // MapStruct API
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3' // MapStruct 코드 생성기
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0' // Lombok 연동 바인딩
+
+	// Configuration Properties: 커스텀 프로퍼티 메타데이터 생성
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// Security: JWT 기반 인증/인가
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server' // JWT 검증/리소스 서버 지원
+	implementation 'com.auth0:java-jwt:4.3.0' // JWT 생성/서명 라이브러리
+
+	runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Test: 테스트 환경
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test' // Web MVC 테스트 (MockMvc)
+	testImplementation 'org.springframework.boot:spring-boot-starter-hateoas-test' // HATEOAS 테스트
+	testImplementation 'org.springframework.boot:spring-boot-restclient' // TestRestTemplate 자동구성에 필요한 RestTemplateBuilder 제공
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 5 실행기
+}
+
+// OpenAPI 코드 생성 파이프라인: 명세(openapi.yaml)로부터 Model/API 인터페이스 생성
+def generatedOpenApiDir = layout.buildDirectory.dir("generated/openapi")
+
+tasks.named('openApiGenerate') {
+	generatorName = 'spring'
+	inputSpec = file("${rootDir}/src/main/resources/api/openapi.yaml").toString()
+	outputDir = generatedOpenApiDir.get().asFile.toString()
+	configFile = file("${rootDir}/src/main/resources/api/config.json").toString()
+	ignoreFileOverride = file("${rootDir}/src/main/resources/api/.openapi-generator-ignore").toString()
+	typeMappings = ['URI': 'URI']
+	importMappings = ['URI': 'java.net.URI']
+	globalProperties = [
+		models: '',
+		apis: '',
+		supportingFiles: 'ApiUtil.java'
+	]
+}
+
+// 리소스 처리 및 Java 컴파일 전에 OpenAPI 코드 생성이 선행되도록 연결
+tasks.named('processResources') {
+	dependsOn(tasks.named('openApiGenerate'))
+}
+tasks.named('compileJava') {
+	dependsOn(tasks.named('openApiGenerate'))
+}
+
+// 생성된 소스 코드 및 리소스를 메인 소스셋에 포함
+sourceSets.main.java.srcDir "${generatedOpenApiDir.get()}/src/main/java"
+sourceSets.main.resources.srcDir "${generatedOpenApiDir.get()}/src/main/resources"
+
+// JAR Manifest에 애플리케이션 제목 및 버전 메타데이터 설정
+tasks.named('bootJar') {
+	manifest {
+		attributes(
+			'Implementation-Title': project.name,
+			'Implementation-Version': project.version
+		)
+	}
+}
+
+// OCI(도커) 이미지 빌드 설정: 레지스트리 주소는 -Pregistry로 주입, 기본값은 로컬 레지스트리. JVM 버전 고정
+def registry = project.findProperty('registry') ?: '192.168.45.175:5000'
+tasks.named('bootBuildImage') {
+	imageName = "${registry}/${project.name}:${project.version}"
+	environment = [
+		"BP_JVM_VERSION"              : "17",
+		// 비루트로 실행되는 컨테이너에서 쓰기 불가능한 /workspace 대신 /tmp로 로그 경로 재지정
+		"BPE_APPEND_JAVA_TOOL_OPTIONS": "-Decomm.logging.path=/tmp/logs",
+		"BPE_DELIM_JAVA_TOOL_OPTIONS" : " "
+	]
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	finalizedBy(jacocoTestReport)
+}
+
+// 통합 테스트: src/integration 소스셋을 추가하고 main/test 산출물을 포함하도록 클래스패스 구성
+sourceSets {
+	integrationTest {
+		java.srcDir file('src/integration/java')
+		resources.srcDir file('src/integration/resources')
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
+}
+
+configurations {
+	integrationTestImplementation.extendsFrom testImplementation
+	integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+	integrationTestCompileOnly.extendsFrom testCompileOnly
+	integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+}
+
+// test 실행 이후, check 이전에 통합 테스트가 수행되도록 태스크를 등록하고 연결
+tasks.register('integrationTest', Test) {
+	useJUnitPlatform()
+	description = 'Runs the integration tests'
+	group = 'verification'
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	// 통합 테스트 클래스가 아직 작성되지 않은 동안에는 태스크가 실패하지 않도록 허용
+	failOnNoDiscoveredTests = false
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+
+// 코드 커버리지: 테스트 실행 결과로 OpenAPI 생성 코드(Model/Api)를 제외한 리포트 생성
+jacocoTestReport {
+	dependsOn test
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(
+				dir: it,
+				exclude: [
+					'com/example/ecomm/model/*',
+					'com/example/ecomm/*Api.*',
+				])
+		}))
+	}
+}
+
+// 라인 커버리지가 최소 기준(90%)에 미달하면 빌드를 실패시킴
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.9
+			}
+		}
+	}
+}

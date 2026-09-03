@@ -1,0 +1,7 @@
+### 제품 목록 조회
+GET http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+### 특정 제품 상세 조회
+GET http://localhost:8080/api/v1/products/6d62d909-f957-430e-8689-b5129c0bb75e
+Content-Type: application/json

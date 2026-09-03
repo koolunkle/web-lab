@@ -1,0 +1,16 @@
+### 주소 목록 조회 - 인증 헤더 누락
+GET http://localhost:8080/api/v1/addresses
+Accept: application/json
+Content-Type: application/json
+
+### 주소 목록 조회 - 유효하지 않은 토큰
+GET http://localhost:8080/api/v1/addresses
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyj0eXAi0iJKV1QiLCJhbGci0iJSUzI1NiJ9
+
+### 주소 목록 조회 - 유효한 토큰 인증
+GET http://localhost:8080/api/v1/addresses
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzY290dDIiLCJyb2xlcyI6WyJBRE1JTiJdLCJpc3MiOiJNb2Rlcm4gQVBJIERldmVsb3BtZW50IHdpdGggU3ByaW5nLi4uIiwiZXhwIjoxNzg3NTU1NzA2LCJpYXQiOjE3ODc1NTQ4MDZ9.DvfLe-tFgA1K17WFppu6e8e9rICVkGtV-6seB7-amEREoRLnMoO7nmjZCejc1Mj_AmOpa61HqzNV31XWS5yF2O85G7mEs-avvUObh6x5wCxLTQhH0mOrrrfPoORpa0tX7BMuAq4jM_SpaQC-aaWYCuTnaZuQKmnNUg7LXJ6rlDov6XMnjI4B2I6BDGiPX8y0R8Fy6wdXpJlqvl8K80rwnrqzeFnFjqOYJMAgbZN8o--4j52XtAwPZbBoqM3_SxrnQBWu_zfL2lACskI6IkDSA_DMhRD9n-L8yaoON52KZ8msxMFDNPNzG-HlkHTRjDXDLD2ysq7MZEqx8lYbB0eLySmBwrWcBdReSaunRT_WK0nh-6Wwkol_WEC6C-OEanqW0RoJN_0xecWTrSiEsnB3PYu926rJpURsgRuIPXb8NgTt4rK-w6FPmjFHsZHJ54AK7_Nx3kNBM7l2ceyI2xUZ4t-khmNllVfUiICmsASYxCI-Kdo0nyz-Fie0RpI9ngv1QpIXoRoLWTfihH0mrz7w2noecTrke_NBY5136efU3M_ATH5J5kWu7eLPyGmg7wXr9yLRMf4B7CK_HF9UvhmtYk4gCBQzED5Z3jp54tCPTe-9kTpdtTO5anGwAflfTQPKKdB1TsQUVx_JNATpt3tbCEskkvHCCZJowyCLuUAw0s0

@@ -1,0 +1,13 @@
+{
+  "library": "spring-boot",
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "modelPackage": "com.example.ecomm.model",
+  "apiPackage": "com.example.ecomm",
+  "invokerPackage": "com.example.ecomm",
+  "serializableModel": true,
+  "useTags": true,
+  "hateoas": true,
+  "unhandledException": true,
+  "useSpringBoot3": true
+}

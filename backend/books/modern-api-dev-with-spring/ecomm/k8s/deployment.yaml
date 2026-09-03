@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ecomm
+  name: ecomm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecomm
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ecomm
+    spec:
+      containers:
+      - image: ecomm:0.0.1-SNAPSHOT
+        imagePullPolicy: Always
+        name: ecomm
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ecomm
+  name: ecomm
+spec:
+  ports:
+  - name: 8080-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: ecomm
+  type: ClusterIP
+status:
+  loadBalancer: {}
